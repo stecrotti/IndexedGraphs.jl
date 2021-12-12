@@ -25,13 +25,13 @@ end
 
 edges(g::SparseMatrixDiGraph) = (IndexedEdge{Int}(i,g.A.rowval[k],k) for i=1:size(g.A,2) for k=nzrange(g.A,i))
 
-Base.eltype(g::SparseMatrixDiGraph{T}) where T= T
+Base.eltype(g::SparseMatrixDiGraph{T}) where T = T
 
 edgetype(g::SparseMatrixDiGraph{T}) where T = IndexedEdge{T}
 
 has_edge(g::SparseMatrixDiGraph, i, j) = g.A[i,j]
 
-has_vertex(g::SparseMatrixDiGraph, i) = 1 ≤ i ≤ size(g.A, 2)
+has_vertex(g::SparseMatrixDiGraph, i) = i ∈ 1:size(g.A, 2)
 
 inneighbors(g::SparseMatrixDiGraph, i) = @view g.A.rowval[nzrange(g.A,i)]
 
@@ -51,4 +51,5 @@ vertices(g::SparseMatrixDiGraph) = 1:size(A,2)
 
 is_directed(g::SparseMatrixDiGraph) = true
 
-zero(g::SparseMatrixDiGraph) = SparseMatrixDiGraph(zero(A), @view W[1:0])
+zero(g::SparseMatrixDiGraph) = SparseMatrixDiGraph(zero(A), similar(g.W, 0))
+

@@ -35,11 +35,11 @@ Graphs.has_vertex(g::SparseMatrixDiGraph, i) = i ∈ 1:size(g.A, 2)
 
 Graphs.inneighbors(g::SparseMatrixDiGraph, i) = @view g.A.rowval[nzrange(g.A,i)]
 
-Graphs.outneighbors(g::SparseMatrixDiGraph, i) = @view g.A.rowval[g.X.nzval[nzrange(g.X,i)]]
+Graphs.outneighbors(g::SparseMatrixDiGraph, i) = @view g.X.rowval[nzrange(g.X,i)]
 
-outedges(g::SparseMatrixDiGraph, i) = (IndexedEdge{Int}(i,g.A.rowval[k],k) for k=nzrange(g.A,i))
+inedges(g::SparseMatrixDiGraph, i) = (IndexedEdge{Int}(i,g.A.rowval[k],k) for k=nzrange(g.A,i))
 
-inedges(g::SparseMatrixDiGraph, i) = (IndexedEdge{Int}(g.X.rowval[k],i,k) for k=@view g.X.nzval[nzrange(g.X,i)])
+outedges(g::SparseMatrixDiGraph, i) = (IndexedEdge{Int}(g.X.rowval[k],i,g.X.nzval[k]) for k=nzrange(g.X,i))
 
 property(g::SparseMatrixDiGraph, e::IndexedEdge) = g.W[e.idx]
 

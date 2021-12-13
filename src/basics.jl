@@ -23,19 +23,19 @@ function SparseMatrixDiGraph(A::AbstractMatrix)
 	SparseMatrixDiGraph(SparseMatrixCSC(A.m, A.n, A.colptr, A.rowval, fill(true, length(A.nzval))), A.nzval)
 end
 
-edges(g::SparseMatrixDiGraph) = (IndexedEdge{Int}(i,g.A.rowval[k],k) for i=1:size(g.A,2) for k=nzrange(g.A,i))
+Graphs.edges(g::SparseMatrixDiGraph) = (IndexedEdge{Int}(i,g.A.rowval[k],k) for i=1:size(g.A,2) for k=nzrange(g.A,i))
 
 Base.eltype(g::SparseMatrixDiGraph{T}) where T = T
 
-edgetype(g::SparseMatrixDiGraph{T}) where T = IndexedEdge{T}
+Graphs.edgetype(g::SparseMatrixDiGraph{T}) where T = IndexedEdge{T}
 
-has_edge(g::SparseMatrixDiGraph, i, j) = g.A[i,j]
+Graphs.has_edge(g::SparseMatrixDiGraph, i, j) = g.A[i,j]
 
-has_vertex(g::SparseMatrixDiGraph, i) = i ∈ 1:size(g.A, 2)
+Graphs.has_vertex(g::SparseMatrixDiGraph, i) = i ∈ 1:size(g.A, 2)
 
-inneighbors(g::SparseMatrixDiGraph, i) = @view g.A.rowval[nzrange(g.A,i)]
+Graphs.inneighbors(g::SparseMatrixDiGraph, i) = @view g.A.rowval[nzrange(g.A,i)]
 
-outneighbors(g::SparseMatrixDiGraph, i) = @view g.A.rowval[g.X.nzval[nzrange(g.X,i)]]
+Graphs.outneighbors(g::SparseMatrixDiGraph, i) = @view g.A.rowval[g.X.nzval[nzrange(g.X,i)]]
 
 outedges(g::SparseMatrixDiGraph, i) = (IndexedEdge{Int}(i,g.A.rowval[k],k) for k=nzrange(g.A,i))
 
@@ -43,13 +43,15 @@ inedges(g::SparseMatrixDiGraph, i) = (IndexedEdge{Int}(g.X.rowval[k],i,k) for k=
 
 property(g::SparseMatrixDiGraph, e::IndexedEdge) = g.W[e.idx]
 
-ne(g::SparseMatrixDiGraph) = nnz(g.A)
+Graphs.ne(g::SparseMatrixDiGraph) = nnz(g.A)
 
-nv(g::SparseMatrixDiGraph) = size(A,2)
+Graphs.nv(g::SparseMatrixDiGraph) = size(g.A,2)
 
-vertices(g::SparseMatrixDiGraph) = 1:size(A,2)
+Graphs.vertices(g::SparseMatrixDiGraph) = 1:size(g.A,2)
 
-is_directed(g::SparseMatrixDiGraph) = true
+Graphs.is_directed(::Type{SparseMatrixDiGraph{T,TW}}) where {T,TW} = true
 
-zero(g::SparseMatrixDiGraph) = SparseMatrixDiGraph(zero(A), similar(g.W, 0))
+Graphs.is_directed(g::SparseMatrixDiGraph) = true
+
+Base.zero(g::SparseMatrixDiGraph) = SparseMatrixDiGraph(zero(g.A), similar(g.W, 0))
 

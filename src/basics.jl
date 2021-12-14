@@ -14,7 +14,10 @@ struct IndexedEdge{T}
 end
 
 function SparseMatrixDiGraph(A::AbstractMatrix{Bool}, W)
+	size(A,1) != size(A,2) && throw(ArgumentError("Matrix should be square"))
+	any(A[i,i] for i=1:size(A,1)) && throw(ArgumentError("Self loops are not allowed"))
 	A = sparse(A)
+	length(W) != nnz(A) && throw(ArgumentError("Number of properties different from number of edges"))
 	X = sparse(SparseMatrixCSC(A.m, A.n, A.colptr, A.rowval, collect(1:nnz(A)))')
 	SparseMatrixDiGraph(A, X, W)
 end

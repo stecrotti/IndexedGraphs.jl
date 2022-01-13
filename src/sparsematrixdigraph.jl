@@ -56,3 +56,8 @@ function get_edge(g::SparseMatrixDiGraph, id::Integer)
     i, j = edge_src_dst(g, id)
     IndexedEdge(i, j, id)
 end
+
+# Returns sparse adj matrix. Elements default to Int (to match Graphs)
+function Graphs.LinAlg.adjacency_matrix(g::SparseMatrixDiGraph, T::DataType=Int)
+    SparseMatrixCSC(g.X.m, g.X.n, g.X.colptr, g.X.rowval, ones(T, nnz(g.X)))
+end

@@ -51,7 +51,7 @@ idx(e::AbstractIndexedEdge) = e.idx
 
 function Base.:(==)(e1::T, e2::T) where {T<:AbstractIndexedEdge}
     fns = fieldnames(T)
-    all( getproperty(e1, fn) == getproperty(e1, fn) for fn in fns )
+    all( getproperty(e1, fn) == getproperty(e2, fn) for fn in fns )
 end
 
 include("utils.jl")

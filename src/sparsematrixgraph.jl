@@ -50,9 +50,9 @@ end
 
 Graphs.ne(g::SparseMatrixGraph) = Int( nnz(g.A) / 2 ) 
 
-Graphs.neighbors(g::SparseMatrixGraph, i::Integer) = Graphs.inneighbors(g, i)
+Graphs.neighbors(g::SparseMatrixGraph, i::Integer) = Graphs.outneighbors(g, i)
 
-Graphs.outneighbors(g::SparseMatrixGraph, i::Integer) = Graphs.inneighbors(g, i)
+Graphs.inneighbors(g::SparseMatrixGraph, i::Integer) = Graphs.outneighbors(g, i)
 
 Graphs.is_directed(g::SparseMatrixGraph) = false
 

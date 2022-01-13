@@ -24,7 +24,7 @@ Graphs.nv(g::AbstractSparseMatrixGraph) = size(g.A, 2)
 
 Graphs.vertices(g::AbstractSparseMatrixGraph) = 1:size(g.A, 2)
 
-Graphs.inneighbors(g::AbstractSparseMatrixGraph, i::Integer) = @view g.A.rowval[nzrange(g.A,i)]
+Graphs.outneighbors(g::AbstractSparseMatrixGraph, i::Integer) = @view g.A.rowval[nzrange(g.A,i)]
 
 # Returns sparse adj matrix. Elements default to Int (to match Graphs)
 function Graphs.LinAlg.adjacency_matrix(g::AbstractSparseMatrixGraph, T::DataType=Int)

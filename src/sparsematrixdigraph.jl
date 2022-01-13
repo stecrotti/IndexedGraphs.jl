@@ -5,7 +5,7 @@ A type representing a sparse directed graph.
 
 ### FIELDS
 
-- `A` -- square adjacency matrix filled with `NullNumber`s
+- `A` -- square adjacency matrix filled with `NullNumber`s. Transpose of the adjacency matrix
 - `X` -- square matrix for efficient access by row. `X[j,i]` points to the index of element `A[i,j]` in `A.nzval`. 
 """
 struct SparseMatrixDiGraph{T<:Integer} <: AbstractSparseMatrixGraph{T}
@@ -13,24 +13,22 @@ struct SparseMatrixDiGraph{T<:Integer} <: AbstractSparseMatrixGraph{T}
     X :: SparseMatrixCSC{T, T}
 end
 
-function SparseMatrixDiGraph(A::AbstractMatrix{NullNumber})
+function SparseMatrixDiGraph(A::SparseMatrixCSC)
     _checksquare(A)
     _check_selfloops(A)
-    A = sparse(A)
-    X = sparse(SparseMatrixCSC(A.m, A.n, A.colptr, A.rowval, collect(1:nnz(A)))')
-    SparseMatrixDiGraph(A, X)
+    X = SparseMatrixCSC(A.m, A.n, A.colptr, A.rowval, collect(1:nnz(A)))
+    At = sparse( permutedims(SparseMatrixCSC(A.m, A.n, A.colptr, A.rowval, fill(NullNumber(), length(A.nzval)))) )
+    SparseMatrixDiGraph(At, X)
 end
 
-function SparseMatrixDiGraph(A::AbstractMatrix)
-    A = sparse(A)
-	SparseMatrixDiGraph(SparseMatrixCSC(A.m, A.n, A.colptr, A.rowval, fill(NullNumber(), length(A.nzval))))
-end
+SparseMatrixDiGraph(A::AbstractMatrix) = SparseMatrixDiGraph(sparse(A))
 
-Graphs.edges(g::SparseMatrixDiGraph) = (IndexedEdge{Int}(g.A.rowval[k], j, k) for j=1:size(g.A,2) for k=nzrange(g.A,j))
+Graphs.edges(g::SparseMatrixDiGraph) = (IndexedEdge{Int}(i, g.A.rowval[k], k) for i=1:size(g.A,2) for k=nzrange(g.A,i))
 
 Graphs.ne(g::SparseMatrixDiGraph) = nnz(g.A)
 
-Graphs.outneighbors(g::SparseMatrixDiGraph, i::Integer) = @view g.X.rowval[nzrange(g.X,i)]
+# Graphs.outneighbors(g::SparseMatrixDiGraph, i::Integer) = @view g.A.rowval[nzrange(g.A,i)]
+Graphs.inneighbors(g::SparseMatrixDiGraph, i::Integer) = @view g.X.rowval[nzrange(g.X,i)]
 
 Graphs.is_directed(g::SparseMatrixDiGraph) = true
 
@@ -38,12 +36,11 @@ Graphs.is_directed(::Type{SparseMatrixDiGraph{T}}) where T = true
 
 Base.zero(g::SparseMatrixDiGraph) = SparseMatrixDiGraph(zero(g.A))
 
-inedges(g::SparseMatrixDiGraph, i::Integer) = (IndexedEdge{Int}(g.A.rowval[k], i, k) for k in nzrange(g.A, i))
+outedges(g::SparseMatrixDiGraph, i::Integer) = (IndexedEdge{Int}(i, g.A.rowval[k], k) for k in nzrange(g.A, i))
+inedges(g::SparseMatrixDiGraph, i::Integer) = (IndexedEdge{Int}(g.X.rowval[k], i, g.X.nzval[k]) for k in nzrange(g.X, i))
 
-outedges(g::SparseMatrixDiGraph, i::Integer) = (IndexedEdge{Int}(i, g.X.rowval[k], g.X.nzval[k]) for k in nzrange(g.X, i))
-
-edge_idx(g::SparseMatrixDiGraph, src::Integer, dst::Integer) = nzindex(g.A, src, dst)
-edge_src_dst(g::SparseMatrixDiGraph, id::Integer) = nzindex(g.A, id)
+edge_idx(g::SparseMatrixDiGraph, src::Integer, dst::Integer) = nzindex(g.A, dst, src)
+edge_src_dst(g::SparseMatrixDiGraph, id::Integer) = reverse(nzindex(g.A, id))
 
 """
     get_edge(g::SparseMatrixDiGraph, src::Integer, dst::Integer)

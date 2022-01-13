@@ -20,6 +20,9 @@ g = SparseMatrixDiGraph(A)
         for e in edges(g)
             @test e == get_edge(g, src(e), dst(e)) 
             @test e == get_edge(g, idx(e))
+            id = idx(get_edge(g, src(e), dst(e)))
+            ee = get_edge(g, id)
+            @test ee == e
         end
     end
 end

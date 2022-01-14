@@ -21,7 +21,7 @@ export
     # undirected graphs
     SparseMatrixGraph, get_edge,
     # directed graphs
-    SparseMatrixDiGraph,
+    SparseMatrixBiDiGraph,
     # sparse graphs
     FactorGraph, Variable, Factor, FactorGraphEdge, nvariables, nfactors,
         variables, factors, bipartite_view
@@ -57,7 +57,7 @@ end
 include("utils.jl")
 include("abstractsparsematrixgraph.jl")
 include("sparsematrixgraph.jl")
-include("sparsematrixdigraph.jl")
+include("sparsematrixbidigraph.jl")
 include("factorgraph.jl")
 
 end # end module

@@ -1,6 +1,6 @@
 using SparseMatrixGraphs
 using Test
 
-include("sparsematrixdigraph.jl")
+include("sparsematrixbidigraph.jl")
 include("sparsematrixgraph.jl")
 include("factorgraph.jl")

@@ -3,7 +3,7 @@ using SparseArrays, Graphs
 A = sprand(Bool, 20, 20, 0.5)
 for i in 1:20; A[i,i] = 0; end
 dropzeros!(A)
-g = SparseMatrixDiGraph(A)
+g = SparseMatrixBiDiGraph(A)
 
 @testset "directed graph" begin
     @testset "basics" begin

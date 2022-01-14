@@ -6,6 +6,14 @@ dropzeros!(A)
 g = SparseMatrixBiDiGraph(A)
 
 @testset "directed graph" begin
+
+    @testset "transpose constructor" begin
+        At = sparse(A')
+        gg = SparseMatrixBiDiGraph( transpose(At) )
+        @test gg.A.rowval === At.rowval
+        @test gg.A.rowval == g.A.rowval
+    end
+
     @testset "basics" begin
         @test is_directed(g)
         @test length(collect(edges(g))) == ne(g)

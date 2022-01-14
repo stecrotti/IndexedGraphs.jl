@@ -5,7 +5,7 @@ A Graphs.jl-compatible implementation of SparseMatrixCSC-based graphs, allowing 
 * Edge properties live separate from the graph, so different sets of properties can be associated to the same graph.
 * In addition, it implements inedges and outedges for O(1) access to neighborhood
 * Edges are indexed, and the index can be used to access edge properties very efficiently.
-* It stores a version of both the direct and the transposed matrix for efficient access
+* Undirected and BiDirected graphs store both the direct and the transposed adjancency matrix for efficient access
 
 A number of other packages implement graph based on CSC matrix representation or similar, namely StaticGraphs, SimpleWeightedGraphs and MatrixNetworks
 

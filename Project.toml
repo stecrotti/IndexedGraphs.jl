@@ -1,6 +1,6 @@
 name = "SparseMatrixGraphs"
 uuid = "8a731c18-cfb7-4915-927e-cc26b56b67cd"
-authors = ["Alfredo Braunstein <alfredo.braunstein@polito.it>"]
+authors = ["Stefano Crotti <stefano.crotti@polito.it>", "Alfredo Braunstein <alfredo.braunstein@polito.it>"]
 version = "0.1.0"
 
 [deps]

@@ -9,7 +9,7 @@ A type representing a sparse undirected graph.
 """
 struct SparseMatrixGraph{T<:Integer} <: AbstractSparseMatrixGraph{T}
     A :: SparseMatrixCSC{T, T}   # Adjacency matrix. Values are unique edge id's
-    
+
     function SparseMatrixGraph(A::SparseMatrixCSC{T}) where T
         _checksquare(A)
         _check_selfloops(A)
@@ -41,7 +41,10 @@ struct SparseMatrixGraph{T<:Integer} <: AbstractSparseMatrixGraph{T}
     end
 end
 
-SparseMatrixGraph(A::AbstractMatrix) = SparseMatrixGraph(sparse(A))
+"""
+Constructs a SparseMatrixGraph from the adjacency matrix A.
+"""
+SparseMatrixGraph(A::AbstractMatrix) = SparseMatrixGraph(convert(SparseMatrixCSC, A))
 
 function Graphs.edges(g::SparseMatrixGraph) 
     (IndexedEdge{Int}(i, g.A.rowval[k], g.A.nzval[k])

@@ -13,6 +13,9 @@ struct SparseMatrixBiDiGraph{T<:Integer} <: AbstractSparseMatrixDiGraph{T}
     X :: SparseMatrixCSC{T, T}
 end
 
+"""
+Constructs a SparseMatrixBiDiGraph from the adjacency matrix A.
+"""
 function SparseMatrixBiDiGraph(A::AbstractMatrix) 
     _checksquare(A)
     _check_selfloops(A)

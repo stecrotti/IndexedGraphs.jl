@@ -56,6 +56,9 @@ struct SparseMatrixDiGraph{T<:Integer} <: AbstractSparseMatrixDiGraph{T}
     end
 end
 
+"""
+Constructs a SparseMatrixDiGraph from the adjacency matrix A.
+"""
 function SparseMatrixDiGraph(A::AbstractMatrix)
     B = convert(SparseMatrixCSC, transpose(A))
     At = SparseMatrixCSC(B.m, B.n, B.colptr, B.rowval, fill(NullNumber(), nnz(B)))

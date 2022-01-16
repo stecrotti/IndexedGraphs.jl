@@ -9,7 +9,7 @@ end
 
 # vector that maps edge i->j to edge j->i in A.nzval
 function inverse_edge_idx(A::SparseMatrixCSC)
-    LinearAlgebra.issymmetric(A) || throw(ArgumentError("Matrix should be symmetric"))
+    issymmetric(A) || throw(ArgumentError("Matrix should be symmetric"))
     n = size(A, 2)
     X = zeros(Int, nnz(A))
     rowcnt = zeros(Int, n)

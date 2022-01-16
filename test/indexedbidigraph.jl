@@ -3,13 +3,13 @@ using SparseArrays, Graphs
 A = sprand(Bool, 20, 20, 0.5)
 for i in 1:20; A[i,i] = 0; end
 dropzeros!(A)
-g = SparseMatrixBiDiGraph(A)
+g = IndexedBiDiGraph(A)
 
 @testset "directed graph" begin
 
     @testset "transpose constructor" begin
         At = sparse(A')
-        gg = SparseMatrixBiDiGraph( transpose(At) )
+        gg = IndexedBiDiGraph( transpose(At) )
         @test gg.A.rowval === At.rowval
         @test gg.A.rowval == g.A.rowval
     end

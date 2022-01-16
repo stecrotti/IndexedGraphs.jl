@@ -4,7 +4,7 @@ A = sprand(Bool, 20, 20, 0.5)
 for i in 1:20; A[i,i] = 0; end
 A = A + A'
 dropzeros!(A)
-g = SparseMatrixGraph(A)
+g = IndexedGraph(A)
 
 @testset "undirected graph" begin
     @testset "basics" begin

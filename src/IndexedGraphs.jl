@@ -9,11 +9,11 @@ import Graphs:
     AbstractEdge, src, dst, edgetype, has_vertex, has_edge, ne, nv, 
     edges, vertices, inneighbors, outneighbors, is_directed, is_bipartite
 
-import LinearAlgebra: 
-    issymmetric
-
 import Graphs.LinAlg:
     adjacency_matrix
+
+import LinearAlgebra: 
+    issymmetric
 
 export
     idx, ==,
@@ -58,7 +58,7 @@ end
 
 include("utils.jl")
 include("abstractindexedgraph.jl")
-include("ndexedgraph.jl")
+include("indexedgraph.jl")
 include("indexeddigraph.jl")
 include("indexedbidigraph.jl")
 include("factorgraph.jl")

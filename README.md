@@ -1,4 +1,4 @@
-# SparseMatrixGraphs.jl
+# IndexedGraphs.jl
 A Graphs.jl-compatible implementation of SparseMatrixCSC-based graphs, allowing fast access to arbitrary edge properties
 
 * The code implements the Graphs.jl interface for directed and undirected graphs.

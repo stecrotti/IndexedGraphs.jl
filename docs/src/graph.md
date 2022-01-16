@@ -1,9 +1,9 @@
 # SparseMatrixGraph
 
 ```@docs
-SparseMatrixGraph
+IndexedGraph
 ```
 
 ```@docs
-SparseMatrixGraph(A::AbstractMatrix)
+IndexedGraph(A::AbstractMatrix)
 ```

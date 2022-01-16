@@ -1,2 +1,2 @@
-using Documenter, SparseMatrixGraphs
-makedocs(sitename="SparseMatrixGraphs Documentation", format = Documenter.HTML(prettyurls = false))
+using Documenter, IndexedGraphs
+makedocs(sitename="IndexedGraphs Documentation", format = Documenter.HTML(prettyurls = false))

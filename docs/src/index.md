@@ -1,10 +1,10 @@
-SparseMatrixGraphs documentation
+IndexedGraphs documentation
 ====
 
 
 This package defines three types of Graphs:
 
-- [SparseMatrixGraph](@ref)
-- [SparseMatrixDiGraph](@ref)
-- [SparseMatrixBidiGraph](@ref)
+- [IndexedGraph](@ref)
+- [IndexedDiGraph](@ref)
+- [IndexedBidiGraph](@ref)
 

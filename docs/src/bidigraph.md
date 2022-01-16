@@ -1,11 +1,11 @@
 # SparseMatrixBidiGraph
 
 ```@docs
-SparseMatrixBiDiGraph
+IndexedBiDiGraph
 ```
 
 ```@docs
-SparseMatrixBiDiGraph(A::AbstractMatrix)
+IndexedBiDiGraph(A::AbstractMatrix)
 ```
 
 

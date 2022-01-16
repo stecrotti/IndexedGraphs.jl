@@ -1,4 +1,4 @@
-module SparseMatrixGraphs
+module IndexedGraphs
 
 using Graphs, SparseArrays
 
@@ -16,18 +16,19 @@ import Graphs.LinAlg:
     adjacency_matrix
 
 export
-    IndexedEdge, idx, ==,
-    AbstractSparseMatrixGraph, inedges, outedges,
+    idx, ==,
+    AbstractIndexedGraph, inedges, outedges,
     # undirected graphs
-    SparseMatrixGraph, get_edge,
+    IndexedGraph, get_edge,
     # directed graphs
-    AbstractSparseMatrixDiGraph, SparseMatrixDiGraph, SparseMatrixBiDiGraph,
+    AbstractIndexedDiGraph, IndexedDiGraph, IndexedBiDiGraph,
     # sparse graphs
     FactorGraph, Variable, Factor, FactorGraphEdge, nvariables, nfactors,
         variables, factors, bipartite_view
 
 """
     AbstractIndexedEdge{T<:Integer} <: AbstractEdge{T}
+
 Abstract type for indexed edge.
 `AbstractIndexedEdge{T}`s must have the following elements:
 - `idx::T` integer positive index 
@@ -36,8 +37,9 @@ abstract type AbstractIndexedEdge{T<:Integer} <: AbstractEdge{T}; end
     
 """
     IndexedEdge{T<:Integer} <: AbstractIndexedEdge{T}
-Edge type for `SparseGraph`s.
-Field `idx` can be used to index edge properties stored in separate containers
+
+Edge type for `IndexedGraph`s. Edge indices can be used to access edge 
+properties stored in separate containers.
 """
 struct IndexedEdge{T<:Integer} <: AbstractIndexedEdge{T}
 	src::T
@@ -55,10 +57,10 @@ function Base.:(==)(e1::T, e2::T) where {T<:AbstractIndexedEdge}
 end
 
 include("utils.jl")
-include("abstractsparsematrixgraph.jl")
-include("sparsematrixgraph.jl")
-include("sparsematrixdigraph.jl")
-include("sparsematrixbidigraph.jl")
+include("abstractindexedgraph.jl")
+include("ndexedgraph.jl")
+include("indexeddigraph.jl")
+include("indexedbidigraph.jl")
 include("factorgraph.jl")
 
 end # end module

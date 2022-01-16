@@ -1,5 +1,5 @@
 """
-    FactorGraph{T<:Integer} <: AbstractSparseMatrixGraph{T}
+    FactorGraph{T<:Integer} <: AbstractIndexedGraph{T}
     
 A type representing a sparse factor graph.
 
@@ -8,7 +8,7 @@ A type representing a sparse factor graph.
 - `A` -- adjacency matrix filled with `NullNumber`s. Rows are factors, columns are variables
 - `X` -- square matrix for efficient access by row. `X[j,i]` points to the index of element `A[i,j]` in `A.nzval`. 
 """
-struct FactorGraph{T<:Integer} <: AbstractSparseMatrixGraph{T}
+struct FactorGraph{T<:Integer} <: AbstractIndexedGraph{T}
     A :: SparseMatrixCSC{NullNumber, T}
     X :: SparseMatrixCSC{T, T}
 end
@@ -189,5 +189,5 @@ Edge indices are preserved in the bottom-left block.
 """
 function bipartite_view(g::FactorGraph, T::DataType=Int)
     A = Graphs.LinAlg.adjacency_matrix(g, T)
-    SparseMatrixGraph(A)
+    IndexedGraph(A)
 end

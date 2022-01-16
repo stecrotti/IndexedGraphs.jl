@@ -1,5 +1,5 @@
 """
-    SparseMatrixGraph{T<:Integer} <: AbstractSparseMatrixGraph{T}
+    IndexedGraph{T<:Integer} <: AbstractIndexedGraph{T}
 
 A type representing a sparse undirected graph.
 
@@ -7,10 +7,10 @@ A type representing a sparse undirected graph.
 
 - `A` -- square adjacency matrix. `A[i,j] == A[j,i]` contains the unique index associated to unidrected edge `(i,j)`
 """
-struct SparseMatrixGraph{T<:Integer} <: AbstractSparseMatrixGraph{T}
+struct IndexedGraph{T<:Integer} <: AbstractIndexedGraph{T}
     A :: SparseMatrixCSC{T, T}   # Adjacency matrix. Values are unique edge id's
 
-    function SparseMatrixGraph(A::SparseMatrixCSC{T}) where T
+    function IndexedGraph(A::SparseMatrixCSC{T}) where T
         _checksquare(A)
         _check_selfloops(A)
         M = SparseMatrixCSC(A.m, A.n, A.colptr, A.rowval, zeros(Int, nnz(A)))
@@ -42,62 +42,64 @@ struct SparseMatrixGraph{T<:Integer} <: AbstractSparseMatrixGraph{T}
 end
 
 """
-Constructs a SparseMatrixGraph from the adjacency matrix A.
-"""
-SparseMatrixGraph(A::AbstractMatrix) = SparseMatrixGraph(convert(SparseMatrixCSC, A))
+    IndexedGraph(A::AbstractMatrix)
 
-function Graphs.edges(g::SparseMatrixGraph) 
+Construct an `IndexedGraph` from symmetric adjacency matrix A.
+"""
+IndexedGraph(A::AbstractMatrix) = IndexedGraph(convert(SparseMatrixCSC, A))
+
+function Graphs.edges(g::IndexedGraph) 
     (IndexedEdge{Int}(i, g.A.rowval[k], g.A.nzval[k])
         for i=1:size(g.A,2) for k=nzrange(g.A,i) if i < g.A.rowval[k])
 end
 
-Graphs.ne(g::SparseMatrixGraph) = Int( nnz(g.A) / 2 ) 
+Graphs.ne(g::IndexedGraph) = Int( nnz(g.A) / 2 ) 
 
-Graphs.neighbors(g::SparseMatrixGraph, i::Integer) = Graphs.outneighbors(g, i)
+Graphs.neighbors(g::IndexedGraph, i::Integer) = Graphs.outneighbors(g, i)
 
-Graphs.inneighbors(g::SparseMatrixGraph, i::Integer) = Graphs.outneighbors(g, i)
+Graphs.inneighbors(g::IndexedGraph, i::Integer) = Graphs.outneighbors(g, i)
 
-Graphs.is_directed(g::SparseMatrixGraph) = false
+Graphs.is_directed(g::IndexedGraph) = false
 
-Graphs.is_directed(::Type{SparseMatrixGraph{T}}) where T = false
+Graphs.is_directed(::Type{IndexedGraph{T}}) where T = false
 
-Base.zero(g::SparseMatrixGraph) = SparseMatrixGraph(zero(g.A))
+Base.zero(g::IndexedGraph) = IndexedGraph(zero(g.A))
 
-function Graphs.edges(g::SparseMatrixGraph, i::Integer)
+function Graphs.edges(g::IndexedGraph, i::Integer)
     (IndexedEdge(extrema((i, g.A.rowval[k]))..., g.A.nzval[k]) 
         for k in nzrange(g.A, i))
 end
 
-function outedges(g::SparseMatrixGraph, i::Integer)
+function outedges(g::IndexedGraph, i::Integer)
     (IndexedEdge(i, g.A.rowval[k], g.A.nzval[k]) for k in nzrange(g.A, i))
 end
 
-function inedges(g::SparseMatrixGraph, i::Integer)
+function inedges(g::IndexedGraph, i::Integer)
     (IndexedEdge(g.A.rowval[k], i, g.A.nzval[k]) for k in nzrange(g.A, i))
 end
 
-function edge_idx(g::SparseMatrixGraph, src::Integer, dst::Integer)
+function edge_idx(g::IndexedGraph, src::Integer, dst::Integer)
     k = nzindex(g.A, src, dst)
     g.A.nzval[k]
 end
-function edge_src_dst(g::SparseMatrixGraph, id::Integer)
+function edge_src_dst(g::IndexedGraph, id::Integer)
     k = findfirst(isequal(id), g.A.nzval)
     i, j = nzindex(g.A, k)
     return extrema((i,j))    # return sorted        
 end
 
 """
-    get_edge(g::SparseMatrixGraph, src::Integer, dst::Integer)
-    get_edge(g::SparseMatrixGraph, id::Integer)
+    get_edge(g::IndexedGraph, src::Integer, dst::Integer)
+    get_edge(g::IndexedGraph, id::Integer)
 
 Get edge given source and destination or given edge index.
 """ 
-function get_edge(g::SparseMatrixGraph, src::Integer, dst::Integer)
+function get_edge(g::IndexedGraph, src::Integer, dst::Integer)
     id = edge_idx(g, src, dst)
     IndexedEdge(src, dst, id)
 end
 
-function get_edge(g::SparseMatrixGraph, id::Integer)
+function get_edge(g::IndexedGraph, id::Integer)
     i, j = edge_src_dst(g, id)
     IndexedEdge(i, j, id)
 end

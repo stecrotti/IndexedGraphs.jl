@@ -3,13 +3,13 @@ using SparseArrays, Graphs
 A = sprand(Bool, 20, 20, 0.5)
 for i in 1:20; A[i,i] = 0; end
 dropzeros!(A)
-g = IndexedBiDiGraph(A)
+g = IndexedDiGraph(A)
 
-@testset "BiDirected graph" begin
+@testset "directed graph" begin
 
     @testset "transpose constructor" begin
         At = sparse(A')
-        gg = IndexedBiDiGraph( transpose(At) )
+        gg = IndexedDiGraph( transpose(At) )
         @test gg.A.rowval === At.rowval
         @test gg.A.rowval == g.A.rowval
     end
@@ -18,10 +18,10 @@ g = IndexedBiDiGraph(A)
         @test is_directed(g)
         @test length(collect(edges(g))) == ne(g)
         i = 3
-        ine = inedges(g, i)
-        inn = inneighbors(g, i)
-        @test all(src(e) == j for (e,j) in zip(ine, inn))
-        @test all(dst(e) == i for e in ine)
+        oute = outedges(g, i)
+        outn = outneighbors(g, i)
+        @test all(dst(e) == j for (e,j) in zip(oute, outn))
+        @test all(src(e) == i for e in oute)
     end
 
     @testset "edge indexing" begin

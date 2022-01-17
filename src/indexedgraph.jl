@@ -65,15 +65,33 @@ Graphs.is_directed(::Type{IndexedGraph{T}}) where T = false
 
 Base.zero(g::IndexedGraph) = IndexedGraph(zero(g.A))
 
+"""
+    Graphs.edges(g::IndexedGraph, i::Integer)
+
+Return a lazy iterators to the edges incident to `i`.
+
+By default unordered edges sort source and destination nodes in increasing order.
+See [outedges](@ref) and [inedges](@ref) if you need otherwise.
+"""
 function Graphs.edges(g::IndexedGraph, i::Integer)
     (IndexedEdge(extrema((i, g.A.rowval[k]))..., g.A.nzval[k]) 
         for k in nzrange(g.A, i))
 end
 
+"""
+    outedges(g::IndexedGraph, i::Integer)
+
+Return a lazy iterators to the edges incident to `i` with `i` as the source.
+"""
 function outedges(g::IndexedGraph, i::Integer)
     (IndexedEdge(i, g.A.rowval[k], g.A.nzval[k]) for k in nzrange(g.A, i))
 end
 
+"""
+    inedges(g::IndexedGraph, i::Integer)
+
+Return a lazy iterators to the edges incident to `i` with `i` as the destination.
+"""
 function inedges(g::IndexedGraph, i::Integer)
     (IndexedEdge(g.A.rowval[k], i, g.A.nzval[k]) for k in nzrange(g.A, i))
 end

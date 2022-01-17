@@ -20,6 +20,12 @@ function FactorGraph(A::AbstractMatrix{NullNumber})
     FactorGraph(A, X)
 end
 
+"""
+    FactorGraph(A::AbstractMatrix)
+
+Construct a factor graph from adjacency matrix `A` with the convention that
+rows are factors, columns are variables
+"""
 function FactorGraph(A::AbstractMatrix)
     A = sparse(A)
 	FactorGraph(SparseMatrixCSC(A.m, A.n, A.colptr, A.rowval, fill(NullNumber(), length(A.nzval))))
@@ -27,6 +33,12 @@ end
 
 abstract type VariableOrFactor{T<:Integer}; end
 
+"""
+    Variable{T<:Integer}
+
+Wraps an index to specify that it is the index of a variable. 
+See e.g. [`Graphs.neighbors(g::FactorGraph, v::Variable)`](@ref)
+"""
 struct Variable{T<:Integer} <: VariableOrFactor{T}
     i::T
     function Variable(i::T) where {T<:Integer}
@@ -35,6 +47,12 @@ struct Variable{T<:Integer} <: VariableOrFactor{T}
     end
 end
 
+"""
+    Factor{T<:Integer}
+
+Wraps an index to specify that it is the index of a factor. 
+See e.g. [`Graphs.neighbors(g::FactorGraph, f::Factor)`](@ref)
+"""
 struct Factor{T<:Integer} <: VariableOrFactor{T}
     a::T
     function Factor(a::T) where {T<:Integer}
@@ -101,10 +119,21 @@ Graphs.edges(g::FactorGraph) = (FactorGraphEdge(g.A.rowval[k], j, k) for j=1:siz
 # Graphs.vertices(g::FactorGraph) = Iterators.flatten((factors(g), variables(g)))
 Graphs.vertices(g::FactorGraph) = 1:nv(g)
 
+"""
+    Graphs.edges(g::FactorGraph, v::Variable)
+
+Return a lazy iterator to the edges incident to variable `v`
+"""
 function Graphs.edges(g::FactorGraph, v::Variable)
     i = v.i
     (FactorGraphEdge( g.A.rowval[k], i, k) for k in nzrange(g.A, i))
 end
+
+"""
+    Graphs.neighbors(g::FactorGraph, f::Factor)
+
+Return a lazy iterator to the edges incident to factor `f`
+"""
 function Graphs.edges(g::FactorGraph, f::Factor)
     a = f.a
     (FactorGraphEdge(a, g.X.rowval[k], k) for k in nzrange(g.X, a))
@@ -112,7 +141,18 @@ end
 inedges(g::FactorGraph, x::VariableOrFactor) = Graphs.edges(g, x)
 outedges(g::FactorGraph, x::VariableOrFactor) = Graphs.edges(g, x)
 
+"""
+    Graphs.neighbors(g::FactorGraph, v::Variable)
+
+Return a lazy iterator to the neighbors of variable `v`
+"""
 Graphs.neighbors(g::FactorGraph, v::Variable) = @view g.A.rowval[nzrange(g.A, v.i)]
+
+"""
+    Graphs.neighbors(g::FactorGraph, f::Factor)
+
+Return a lazy iterator to the neighbors of factor `f`
+"""
 Graphs.neighbors(g::FactorGraph, f::Factor) = @view g.X.rowval[nzrange(g.X, f.a)]
 Graphs.inneighbors(g::FactorGraph, x::VariableOrFactor) = neighbors(g, x)
 Graphs.outneighbors(g::FactorGraph, x::VariableOrFactor) = neighbors(g, x)

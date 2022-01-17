@@ -69,6 +69,7 @@ Edge type for `FactorGraph`s.
     FactorGraphEdge(f::Factor, v::Variable, idx::Integer)
     FactorGraphEdge(v::Variable, f::Factor, idx::Integer)
 
+Example:
 ```@example
     FactorGraphEdge(Factor(2), Variable(4), 3)
 ```

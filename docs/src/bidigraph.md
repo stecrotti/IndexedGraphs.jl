@@ -12,5 +12,12 @@ IndexedBiDiGraph
 ```@docs
 IndexedBiDiGraph(A::AbstractMatrix)
 ```
+Example:
+```@example
+using SparseArrays
+At = sprand(100, 100, 0.1)           # At[i,j] corresponds to edge j=>i
+g = IndexedBiDiGraph(transpose(At))  
+g.A.rowval === At.rowval
+```
 
 

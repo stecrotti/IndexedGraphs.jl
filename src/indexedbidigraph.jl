@@ -21,13 +21,6 @@ Construct an `IndexedBiDiGraph` from the adjacency matrix `A`.
 `IndexedBiDiGraph` internally stores the transpose of `A`. To avoid overhead due
 to the transposition, use `IndexedBiDiGraph(transpose(At))` where `At` is the 
 transpose of `A`.
-
-```@example
-using SparseArrays
-At = sprand(100, 100, 0.1)           # At[i,j] corresponds to edge j=>i
-g = IndexedBiDiGraph(transpose(At))  
-g.A.rowval === At.rowval
-```
 """
 function IndexedBiDiGraph(A::AbstractMatrix) 
     _checksquare(A)

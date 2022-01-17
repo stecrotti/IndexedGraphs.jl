@@ -23,8 +23,8 @@ export
     # directed graphs
     AbstractIndexedDiGraph, IndexedDiGraph, IndexedBiDiGraph,
     # sparse graphs
-    FactorGraph, Variable, Factor, FactorGraphEdge, nvariables, nfactors,
-        variables, factors, bipartite_view
+    FactorGraph, VariableOrFactor, Variable, Factor, FactorGraphEdge, 
+    nvariables, nfactors, variables, factors, bipartite_view
 
 """
     AbstractIndexedEdge{T<:Integer} <: AbstractEdge{T}

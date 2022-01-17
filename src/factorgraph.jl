@@ -69,11 +69,9 @@ Edge type for `FactorGraph`s.
     FactorGraphEdge(f::Factor, v::Variable, idx::Integer)
     FactorGraphEdge(v::Variable, f::Factor, idx::Integer)
 
-### Example
+```@example
     FactorGraphEdge(Factor(2), Variable(4), 3)
-
-!!! note
-    Specifying the variable first is also valid: `FactorGraphEdge(v::Variable, f::Factor, idx::Integer)`
+```
 """
 struct FactorGraphEdge{T<:Integer} <: AbstractIndexedEdge{T}
 	a::T    # factor index

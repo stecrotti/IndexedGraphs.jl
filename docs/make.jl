@@ -5,8 +5,8 @@ makedocs(sitename="IndexedGraphs Documentation",
         "Home" => "index.md",
         "Graph types" => [
             "graph.md", 
-            "digraph.md",
             "bidigraph.md",
+            "digraph.md",
             "factor.md"          
         ],
         "Reference" => "reference.md"

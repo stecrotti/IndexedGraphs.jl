@@ -10,8 +10,12 @@ FactorGraph
 FactorGraph(A::AbstractMatrix)
 ```
 
+```@meta
+using IndexedGraphs.VariableOrFactor
+```
+
 ```@docs
-get_edge(g::FactorGraph)
+get_edge(g::FactorGraph, x::VariableOrFactor, y::VariableOrFactor)
 bipartite_view(g::FactorGraph, T::DataType=Int)
 ```
 

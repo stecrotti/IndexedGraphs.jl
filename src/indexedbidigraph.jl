@@ -43,7 +43,7 @@ Graphs.inneighbors(g::IndexedBiDiGraph, i::Integer) = @view g.X.rowval[nzrange(g
 Base.zero(g::IndexedBiDiGraph) = IndexedBiDiGraph(zero(g.A))
 
 """
-    inedges(g::AbstractIndexedDiGraph, i::Integer)
+    inedges(g::AbstractIndexedBiDiGraph, i::Integer)
 
 Return a lazy iterator to the edges ingoing to node `i` in `g`.
 """

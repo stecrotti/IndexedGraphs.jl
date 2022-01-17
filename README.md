@@ -1,4 +1,6 @@
 # IndexedGraphs.jl
+[![CI](https://github.com/stecrotti/IndexedGraphs.jl/actions/workflows/ci.yml/badge.svg)](https://github.com/stecrotti/IndexedGraphs.jl/actions/workflows/ci.yml)
+
 Not all graph edges come with an index. These do.
 
 ## Documentation

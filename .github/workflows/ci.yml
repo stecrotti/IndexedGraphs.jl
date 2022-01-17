@@ -3,6 +3,10 @@ on:
   push:
     branches:
       - main
+    paths:
+      - src/**
+      - test/**
+      - .github/workflows/**
     tags: '*'
   pull_request:
 concurrency:

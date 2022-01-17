@@ -1,4 +1,4 @@
-# SparseMatrixGraph
+# IndexedGraph
 
 ```@docs
 IndexedGraph

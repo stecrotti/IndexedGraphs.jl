@@ -1,4 +1,4 @@
-# SparseMatrixBidiGraph
+# IndexedBiDiGraph
 
 ```@docs
 IndexedBiDiGraph

@@ -11,7 +11,7 @@ FactorGraph(A::AbstractMatrix)
 ```
 
 ```@docs
-get_edge(g::FactorGraph, x::VariableOrFactor, y::VariableOrFactor)
+get_edge(g::FactorGraph)
 bipartite_view(g::FactorGraph, T::DataType=Int)
 ```
 

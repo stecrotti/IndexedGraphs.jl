@@ -1,5 +1,5 @@
 # Reference
 
 ```@autodocs
-Modules = [indexedGraphs]
+Modules = [IndexedGraphs]
 ```

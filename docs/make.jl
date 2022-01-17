@@ -7,7 +7,8 @@ makedocs(sitename="IndexedGraphs Documentation",
             "graph.md", 
             "digraph.md",
             "bidigraph.md"            
-        ]
+        ],
+        "Reference" => "reference.md"
     ]
     )
 

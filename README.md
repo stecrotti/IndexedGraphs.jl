@@ -1,6 +1,6 @@
 # IndexedGraphs.jl
 
-Not all graph edges come with an index. These do.
+_Not all graph edges come with an index. These do_
 
 [![CI](https://github.com/stecrotti/IndexedGraphs.jl/actions/workflows/ci.yml/badge.svg)](https://github.com/stecrotti/IndexedGraphs.jl/actions/workflows/ci.yml)
 [![codecov](https://codecov.io/gh/stecrotti/IndexedGraphs.jl/branch/main/graph/badge.svg?token=CYLRPHU098)](https://codecov.io/gh/stecrotti/IndexedGraphs.jl)

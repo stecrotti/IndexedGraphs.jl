@@ -1,6 +1,9 @@
 # IndexedGraphs.jl
 Not all graph edges come with an index. These do.
 
+## Documentation
+https://stecrotti.github.io/IndexedGraphs.jl/dev
+
 ## Overview
 A **Graphs.jl**-compatible implementation of [SparseMatrixCSC](https://github.com/JuliaLang/SparseArrays.jl)-based graphs, allowing fast access to arbitrary edge properties
 

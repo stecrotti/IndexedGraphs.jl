@@ -57,3 +57,4 @@ end
 struct NullNumber <: Number; end
 Base.zero(::NullNumber) = false
 Base.zero(::Type{NullNumber}) = false
+Base.iszero(::NullNumber) = false

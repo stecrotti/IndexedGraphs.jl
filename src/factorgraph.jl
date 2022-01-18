@@ -37,7 +37,7 @@ abstract type VariableOrFactor{T<:Integer}; end
     Variable{T<:Integer}
 
 Wraps an index to specify that it is the index of a variable. 
-See e.g. [`Graphs.neighbors(g::FactorGraph, v::Variable)`](@ref)
+See e.g. [`neighbors(g::FactorGraph, v::Variable)`](@ref)
 """
 struct Variable{T<:Integer} <: VariableOrFactor{T}
     i::T
@@ -51,7 +51,7 @@ end
     Factor{T<:Integer}
 
 Wraps an index to specify that it is the index of a factor. 
-See e.g. [`Graphs.neighbors(g::FactorGraph, f::Factor)`](@ref)
+See e.g. [`neighbors(g::FactorGraph, f::Factor)`](@ref)
 """
 struct Factor{T<:Integer} <: VariableOrFactor{T}
     a::T
@@ -103,7 +103,7 @@ function Base.show(io::IO, e::FactorGraphEdge)
 end
 
 Base.eltype(g::FactorGraph{T}) where T = T
-Graphs.edgetype(g::FactorGraph{T}) where T = FactorGraphEdge{T}
+edgetype(g::FactorGraph{T}) where T = FactorGraphEdge{T}
 
 nvariables(g::FactorGraph) = size(g.A, 2)
 nfactors(g::FactorGraph) = size(g.A, 1)
@@ -111,52 +111,52 @@ nfactors(g::FactorGraph) = size(g.A, 1)
 factors(g::FactorGraph) = (Factor(a) for a in 1:nfactors(g))
 variables(g::FactorGraph) = (Variable(i) for i in 1:nvariables(g))
 
-Graphs.ne(g::FactorGraph) = nnz(g.A)
-Graphs.nv(g::FactorGraph) = nvariables(g) + nfactors(g)
+ne(g::FactorGraph) = nnz(g.A)
+nv(g::FactorGraph) = nvariables(g) + nfactors(g)
 
-Graphs.edges(g::FactorGraph) = (FactorGraphEdge(g.A.rowval[k], j, k) for j=1:size(g.A,2) for k=nzrange(g.A,j))
-# Graphs.vertices(g::FactorGraph) = Iterators.flatten((factors(g), variables(g)))
-Graphs.vertices(g::FactorGraph) = 1:nv(g)
+edges(g::FactorGraph) = (FactorGraphEdge(g.A.rowval[k], j, k) for j=1:size(g.A,2) for k=nzrange(g.A,j))
+# vertices(g::FactorGraph) = Iterators.flatten((factors(g), variables(g)))
+vertices(g::FactorGraph) = 1:nv(g)
 
 """
-    Graphs.edges(g::FactorGraph, v::Variable)
+    edges(g::FactorGraph, v::Variable)
 
 Return a lazy iterator to the edges incident to variable `v`
 """
-function Graphs.edges(g::FactorGraph, v::Variable)
+function edges(g::FactorGraph, v::Variable)
     i = v.i
     (FactorGraphEdge( g.A.rowval[k], i, k) for k in nzrange(g.A, i))
 end
 
 """
-    Graphs.neighbors(g::FactorGraph, f::Factor)
+    neighbors(g::FactorGraph, f::Factor)
 
 Return a lazy iterator to the edges incident to factor `f`
 """
-function Graphs.edges(g::FactorGraph, f::Factor)
+function edges(g::FactorGraph, f::Factor)
     a = f.a
     (FactorGraphEdge(a, g.X.rowval[k], k) for k in nzrange(g.X, a))
 end
-inedges(g::FactorGraph, x::VariableOrFactor) = Graphs.edges(g, x)
-outedges(g::FactorGraph, x::VariableOrFactor) = Graphs.edges(g, x)
+inedges(g::FactorGraph, x::VariableOrFactor) = edges(g, x)
+outedges(g::FactorGraph, x::VariableOrFactor) = edges(g, x)
 
 """
-    Graphs.neighbors(g::FactorGraph, v::Variable)
+    neighbors(g::FactorGraph, v::Variable)
 
 Return a lazy iterator to the neighbors of variable `v`
 """
-Graphs.neighbors(g::FactorGraph, v::Variable) = @view g.A.rowval[nzrange(g.A, v.i)]
+neighbors(g::FactorGraph, v::Variable) = @view g.A.rowval[nzrange(g.A, v.i)]
 
 """
-    Graphs.neighbors(g::FactorGraph, f::Factor)
+    neighbors(g::FactorGraph, f::Factor)
 
 Return a lazy iterator to the neighbors of factor `f`
 """
-Graphs.neighbors(g::FactorGraph, f::Factor) = @view g.X.rowval[nzrange(g.X, f.a)]
-Graphs.inneighbors(g::FactorGraph, x::VariableOrFactor) = neighbors(g, x)
-Graphs.outneighbors(g::FactorGraph, x::VariableOrFactor) = neighbors(g, x)
+neighbors(g::FactorGraph, f::Factor) = @view g.X.rowval[nzrange(g.X, f.a)]
+inneighbors(g::FactorGraph, x::VariableOrFactor) = neighbors(g, x)
+outneighbors(g::FactorGraph, x::VariableOrFactor) = neighbors(g, x)
 
-function Graphs.neighbors(g::FactorGraph, i::Int)
+function neighbors(g::FactorGraph, i::Int)
     nvars = nvariables(g)
     if i > nvars
         # i is a factor
@@ -167,22 +167,22 @@ function Graphs.neighbors(g::FactorGraph, i::Int)
     end
 end
 
-Graphs.has_vertex(g::FactorGraph, v::Variable) = v.i ≤ nvariables(g)
-Graphs.has_vertex(g::FactorGraph, f::Factor) = f.a ≤ nfactors(g)
-Graphs.has_vertex(g::FactorGraph, i::Int) = i ≤ nv(g)
-Graphs.has_edge(g::FactorGraph, f::Factor, v::Variable) = g.A[f.a, v.i] != 0
-Graphs.has_edge(g::FactorGraph, v::Variable, f::Factor) = Graphs.has_edge(g, f, v)
+has_vertex(g::FactorGraph, v::Variable) = v.i ≤ nvariables(g)
+has_vertex(g::FactorGraph, f::Factor) = f.a ≤ nfactors(g)
+has_vertex(g::FactorGraph, i::Int) = i ≤ nv(g)
+has_edge(g::FactorGraph, f::Factor, v::Variable) = g.A[f.a, v.i] != 0
+has_edge(g::FactorGraph, v::Variable, f::Factor) = has_edge(g, f, v)
 
 # return true if (src, dst) is an edge in the bipartite view of g
-function Graphs.has_edge(g::FactorGraph, src::Integer, dst::Integer)
-    Graphs.has_edge(g, Factor(src - nvariables(g)), Variable(dst))
+function has_edge(g::FactorGraph, src::Integer, dst::Integer)
+    has_edge(g, Factor(src - nvariables(g)), Variable(dst))
 end
 
 Base.zero(g::FactorGraph) = FactorGraph(zero(g.A))
 
-Graphs.is_directed(g::FactorGraph) = false
-Graphs.is_directed(::Type{FactorGraph{T}}) where T = false
-Graphs.is_bipartite(g::FactorGraph) = true
+is_directed(g::FactorGraph) = false
+is_directed(::Type{FactorGraph{T}}) where T = false
+is_bipartite(g::FactorGraph) = true
 
 edge_idx(g::FactorGraph, f::Factor, v::Variable) = nzindex(g.A, f.a, v.i)
 edge_idx(g::FactorGraph, v::Variable, f::Factor) = edge_idx(g, f, v)
@@ -206,13 +206,13 @@ function get_edge(g::FactorGraph, id::Integer)
 end
 
 """
-    Graphs.LinAlg.adjacency_matrix(g::FactorGraph, T::DataType=Int)
+    adjacency_matrix(g::FactorGraph, T::DataType=Int)
 
 Return the symmetric adjacency matrix of size `nvariables(g) + nfactors(g)` 
 where no distinction is made between variable and factor nodes.
 Edge indices are preserved in the bottom-left block.
 """
-function Graphs.LinAlg.adjacency_matrix(g::FactorGraph, T::DataType=Int)
+function adjacency_matrix(g::FactorGraph, T::DataType=Int)
     m, n = nfactors(g), nvariables(g)
     A = SparseMatrixCSC(g.A.m, g.A.n, g.A.colptr, g.A.rowval, ones(T, nnz(g.A)))
     return [ spzeros(T, n, n)  A'               ;
@@ -222,11 +222,11 @@ end
 """
     bipartite_view(g::FactorGraph, T::DataType=Int)
 
-Construct an undirected bipartite `SparseGraph` where vertices are the concatenation
+Construct an undirected bipartite `IndexedGraph` where vertices are the concatenation
 of the variables and factors of the original `FactorGraph`. 
 Edge indices are preserved in the bottom-left block.
 """
 function bipartite_view(g::FactorGraph, T::DataType=Int)
-    A = Graphs.LinAlg.adjacency_matrix(g, T)
+    A = adjacency_matrix(g, T)
     IndexedGraph(A)
 end

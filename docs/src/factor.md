@@ -22,9 +22,9 @@ bipartite_view(g::FactorGraph, T::DataType=Int)
 ## Overrides from Graphs.jl
 
 ```@docs
-Graphs.neighbors(g::FactorGraph, v::Variable)
-Graphs.neighbors(g::FactorGraph, f::Factor)
-Graphs.edges(g::FactorGraph, v::Variable)
-Graphs.edges(g::FactorGraph, f::Factor)
-Graphs.LinAlg.adjacency_matrix(g::FactorGraph, T::DataType=Int)
+neighbors(g::FactorGraph, v::Variable)
+neighbors(g::FactorGraph, f::Factor)
+edges(g::FactorGraph, v::Variable)
+edges(g::FactorGraph, f::Factor)
+adjacency_matrix(g::FactorGraph, T::DataType=Int)
 ```

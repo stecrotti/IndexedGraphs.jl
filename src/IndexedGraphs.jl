@@ -1,19 +1,24 @@
 module IndexedGraphs
 
-using Graphs, SparseArrays
+import SparseArrays:
+    sparse, SparseMatrixCSC, nnz, nzrange, rowvals, nonzeros, spzeros
 
 import Base: 
     show, ==
 
 import Graphs:
-    AbstractEdge, src, dst, edgetype, has_vertex, has_edge, ne, nv, 
-    edges, vertices, inneighbors, outneighbors, is_directed, is_bipartite
+    AbstractGraph, AbstractEdge, src, dst, edgetype, has_vertex, has_edge, ne, nv, 
+    edges, vertices, neighbors, inneighbors, outneighbors, is_directed, is_bipartite,
+    DijkstraState
 
 import Graphs.LinAlg:
     adjacency_matrix
 
 import LinearAlgebra: 
     issymmetric
+
+import TrackingHeaps: 
+    TrackingHeap, pop!, NoTrainingWheels, MinHeapOrder
 
 export
     idx, ==,
@@ -22,7 +27,7 @@ export
     IndexedGraph, get_edge,
     # directed graphs
     AbstractIndexedDiGraph, IndexedDiGraph, IndexedBiDiGraph,
-    # sparse graphs
+    # factor graphs
     FactorGraph, VariableOrFactor, Variable, Factor, FactorGraphEdge, 
     nvariables, nfactors, variables, factors, bipartite_view
 
@@ -47,8 +52,8 @@ struct IndexedEdge{T<:Integer} <: AbstractIndexedEdge{T}
 	idx::T
 end
 
-Graphs.src(e::IndexedEdge) = e.src
-Graphs.dst(e::IndexedEdge) = e.dst
+src(e::IndexedEdge) = e.src
+dst(e::IndexedEdge) = e.dst
 idx(e::AbstractIndexedEdge) = e.idx
 
 function Base.:(==)(e1::T, e2::T) where {T<:AbstractIndexedEdge}
@@ -57,10 +62,13 @@ function Base.:(==)(e1::T, e2::T) where {T<:AbstractIndexedEdge}
 end
 
 include("utils.jl")
+
 include("abstractindexedgraph.jl")
 include("indexedgraph.jl")
 include("indexeddigraph.jl")
 include("indexedbidigraph.jl")
 include("factorgraph.jl")
+
+include("algorithms/dijkstra.jl")
 
 end # end module

@@ -48,32 +48,32 @@ Construct an `IndexedGraph` from symmetric adjacency matrix A.
 """
 IndexedGraph(A::AbstractMatrix) = IndexedGraph(convert(SparseMatrixCSC, A))
 
-function Graphs.edges(g::IndexedGraph) 
+function edges(g::IndexedGraph) 
     (IndexedEdge{Int}(i, g.A.rowval[k], g.A.nzval[k])
         for i=1:size(g.A,2) for k=nzrange(g.A,i) if i < g.A.rowval[k])
 end
 
-Graphs.ne(g::IndexedGraph) = Int( nnz(g.A) / 2 ) 
+ne(g::IndexedGraph) = Int( nnz(g.A) / 2 ) 
 
-Graphs.neighbors(g::IndexedGraph, i::Integer) = Graphs.outneighbors(g, i)
+neighbors(g::IndexedGraph, i::Integer) = outneighbors(g, i)
 
-Graphs.inneighbors(g::IndexedGraph, i::Integer) = Graphs.outneighbors(g, i)
+inneighbors(g::IndexedGraph, i::Integer) = outneighbors(g, i)
 
-Graphs.is_directed(g::IndexedGraph) = false
+is_directed(g::IndexedGraph) = false
 
-Graphs.is_directed(::Type{IndexedGraph{T}}) where T = false
+is_directed(::Type{IndexedGraph{T}}) where T = false
 
 Base.zero(g::IndexedGraph) = IndexedGraph(zero(g.A))
 
 """
-    Graphs.edges(g::IndexedGraph, i::Integer)
+    edges(g::IndexedGraph, i::Integer)
 
 Return a lazy iterators to the edges incident to `i`.
 
 By default unordered edges sort source and destination nodes in increasing order.
 See [outedges](@ref) and [inedges](@ref) if you need otherwise.
 """
-function Graphs.edges(g::IndexedGraph, i::Integer)
+function edges(g::IndexedGraph, i::Integer)
     (IndexedEdge(extrema((i, g.A.rowval[k]))..., g.A.nzval[k]) 
         for k in nzrange(g.A, i))
 end

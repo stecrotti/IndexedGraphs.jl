@@ -5,11 +5,11 @@ Abstract type for representing directed graphs.
 """
 abstract type AbstractIndexedDiGraph{T} <: AbstractIndexedGraph{T}; end
 
-Graphs.edges(g::AbstractIndexedDiGraph) = (IndexedEdge{Int}(i, g.A.rowval[k], k) for i=1:size(g.A,2) for k=nzrange(g.A,i))
-Graphs.ne(g::AbstractIndexedDiGraph) = nnz(g.A)
+edges(g::AbstractIndexedDiGraph) = (IndexedEdge{Int}(i, g.A.rowval[k], k) for i=1:size(g.A,2) for k=nzrange(g.A,i))
+ne(g::AbstractIndexedDiGraph) = nnz(g.A)
 
-Graphs.is_directed(g::AbstractIndexedDiGraph) = true
-Graphs.is_directed(::Type{AbstractIndexedDiGraph{T}}) where T = true
+is_directed(g::AbstractIndexedDiGraph) = true
+is_directed(::Type{AbstractIndexedDiGraph{T}}) where T = true
 
 """
     outedges(g::AbstractIndexedDiGraph, i::Integer)
@@ -37,7 +37,7 @@ function get_edge(g::AbstractIndexedDiGraph, id::Integer)
 end
 
 # Returns sparse adj matrix. Elements default to Int (to match Graphs)
-function Graphs.LinAlg.adjacency_matrix(g::AbstractIndexedDiGraph, T::DataType=Int)
+function adjacency_matrix(g::AbstractIndexedDiGraph, T::DataType=Int)
     M = sparse(transpose(g.A))
     SparseMatrixCSC(M.m, M.n, M.colptr, M.rowval, ones(T, nnz(M)))
 end
@@ -77,7 +77,7 @@ end
 
 # WARNING: very slow! Not recommended, if you need inneighbors, check out `IndexedBiDiGraph`
 # here only to comply with the requirements for subtyping `AbstractGraph` from Graphs.jl
-function Graphs.inneighbors(g::IndexedDiGraph, i::Integer) 
+function inneighbors(g::IndexedDiGraph, i::Integer) 
     X = sparse(transpose(g.A))
     @view X.rowval[nzrange(X,i)]
 end 

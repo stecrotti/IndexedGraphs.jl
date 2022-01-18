@@ -19,5 +19,5 @@ get_edge(g::IndexedGraph, src::Integer, dst::Integer)
 ## Overrides from Graphs.jl
 
 ```@docs
-Graphs.edges(g::IndexedGraph, i::Integer)
+edges(g::IndexedGraph, i::Integer)
 ```

@@ -26,21 +26,27 @@ A number of other packages implement graph based on CSC matrix representation or
 ## Navigating graphs
 The most natural and efficient way to iterate over an `IndexedGraph` is to iterate over neighboring nodes or edges
 ```
-julia> A = [0 0 1;
-            1 0 0;
-            1 1 0];
-julia> g = IndexedDiGraph(A);
-julia> i = 3;
-julia> out_i = outedges(g, i);
-julia> collect(out_i)
+A = [0 0 1;
+     1 0 0;
+     1 1 0]
+g = IndexedDiGraph(A)
+i = 3
+out_i = outedges(g, i)
+collect(out_i)
+```
+outputs:
+```
 2-element Vector{IndexedGraphs.IndexedEdge{Int64}}:
  Indexed Edge 3 => 1 with index 4
  Indexed Edge 3 => 2 with index 5
 ```
 Edge indices, 4 and 5 in this case, can be extracted with `idx` and used to access properties stored in a separate container
 ```
-julia> e = first(out_i);
-julia> src(e), dst(e), idx(e)
+e = first(out_i)
+src(e), dst(e), idx(e)
+```
+outputs:
+```
 (3, 1, 4)
 ```
 

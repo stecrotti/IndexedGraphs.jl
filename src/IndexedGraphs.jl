@@ -61,6 +61,10 @@ function Base.:(==)(e1::T, e2::T) where {T<:AbstractIndexedEdge}
     all( getproperty(e1, fn) == getproperty(e2, fn) for fn in fns )
 end
 
+function Base.show(io::IO, e::AbstractIndexedEdge)
+    print(io, "Indexed Edge $(src(e)) => $(dst(e)) with index $(idx(e))")
+end
+
 include("utils.jl")
 
 include("abstractindexedgraph.jl")

@@ -9,7 +9,7 @@ import Base:
 import Graphs:
     AbstractGraph, AbstractEdge, src, dst, edgetype, has_vertex, has_edge, ne, nv, 
     edges, vertices, neighbors, inneighbors, outneighbors, is_directed, is_bipartite,
-    DijkstraState
+    DijkstraState, dijkstra_shortest_paths
 
 import Graphs.LinAlg:
     adjacency_matrix

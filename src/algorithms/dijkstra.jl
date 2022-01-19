@@ -6,6 +6,7 @@ function dijkstra_shortest_paths(g::AbstractIndexedGraph,
     trackvertices=false
     ) where T <: Real where U <: Integer
 
+    issubset(1:ne(g), eachindex(distvec)) || throw(ArgumentError("Bad indices in distvec"))
     nvg = nv(g)
     dists = fill(typemax(T), nvg)
     parents = zeros(U, nvg)
@@ -21,9 +22,10 @@ function dijkstra_shortest_paths(g::AbstractIndexedGraph,
     end
 
     closest_vertices = Vector{U}()  # Maintains vertices in order of distances from source
-    sizehint!(closest_vertices, nvg)
 
-    while !isempty(H)
+    trackvertices && sizehint!(closest_vertices, nvg)
+
+    @inbounds while !isempty(H)
         u, d = pop!(H)
 
         if trackvertices

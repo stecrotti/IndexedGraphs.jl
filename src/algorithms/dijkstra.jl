@@ -66,7 +66,7 @@ function dijkstra_shortest_paths(g::AbstractIndexedGraph,
     if trackvertices
         for s in vertices(g)
             visited = dists[s] != typemax(T)
-            if !visited[s]
+            if !visited
                 push!(closest_vertices, s)
             end
         end

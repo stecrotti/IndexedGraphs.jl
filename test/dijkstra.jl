@@ -1,8 +1,8 @@
 using SparseArrays, Graphs, IndexedGraphs, LinearAlgebra
 
 function dotest(g, g_Graphs, s, w, W, allpaths, trackvertices)
-    ds_IG = dijkstra_shortest_paths(g, s, w; allpaths, trackvertices)
-    ds_Graphs = dijkstra_shortest_paths(g_Graphs, s, W; allpaths, trackvertices)
+    ds_IG = dijkstra_shortest_paths(g, s, w; allpaths=allpaths, trackvertices=trackvertices)
+    ds_Graphs = dijkstra_shortest_paths(g_Graphs, s, W; allpaths=allpaths, trackvertices=trackvertices)
     # check that results are correct
     @test ds_IG.dists == ds_Graphs.dists
     @test ds_IG.parents == ds_Graphs.parents

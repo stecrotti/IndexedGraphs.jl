@@ -16,6 +16,8 @@ Example:
 ```@example
 using SparseArrays, IndexedGraphs
 At = sprand(100, 100, 0.1)           # At[i,j] corresponds to edge j=>i
+for i in 1:100; At[i,i] = 0; end
+dropzeros!(At)
 g = IndexedBiDiGraph(transpose(At))  
 g.A.rowval === At.rowval
 ```

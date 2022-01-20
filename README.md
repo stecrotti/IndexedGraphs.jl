@@ -54,11 +54,11 @@ outputs:
 Performance on [Dijkstra's algorithm](https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm) compared with the packages listed above, as computed [here](https://github.com/stecrotti/IndexedGraphs.jl/blob/main/benchmark/dijkstra_benchmark.jl) for a random directed graph of size 5000.
 ```
 IndexedGraphs:
-  28.865 ms (36 allocations: 535.31 KiB)
+  23.180 ms (35 allocations: 468.94 KiB)
 MatrixNetworks:
-  29.275 ms (14 allocations: 1.09 MiB)
+  26.894 ms (14 allocations: 1.09 MiB)
 Graphs
-  2.034 s (45 allocations: 808.39 KiB)
+  1.201 s (45 allocations: 808.39 KiB)
 SimpleWeightedGraphs:
-  1.903 s (45 allocations: 808.39 KiB)
+  1.274 s (45 allocations: 808.39 KiB)
 ```

@@ -31,7 +31,7 @@ function IndexedBiDiGraph(A::AbstractMatrix)
     IndexedBiDiGraph(At, X)
 end
 
-inneighbors(g::IndexedBiDiGraph, i::Integer) = @view g.X.rowval[nzrange(g.X,i)]
+inneighbors(g::IndexedBiDiGraph, i::Integer) = @inbounds @view g.X.rowval[nzrange(g.X,i)]
 
 Base.zero(g::IndexedBiDiGraph) = IndexedBiDiGraph(zero(g.A))
 
@@ -40,7 +40,7 @@ Base.zero(g::IndexedBiDiGraph) = IndexedBiDiGraph(zero(g.A))
 
 Return a lazy iterator to the edges ingoing to node `i` in `g`.
 """
-inedges(g::IndexedBiDiGraph, i::Integer) = (IndexedEdge{Int}(g.X.rowval[k], i, g.X.nzval[k]) for k in nzrange(g.X, i))
+inedges(g::IndexedBiDiGraph, i::Integer) = @inbounds (IndexedEdge{Int}(g.X.rowval[k], i, g.X.nzval[k]) for k in nzrange(g.X, i))
 
 # Return a copy of the adjacency matrix with elements of type `T`
 function adjacency_matrix(g::IndexedBiDiGraph, T::DataType=Int)

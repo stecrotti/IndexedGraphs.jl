@@ -5,7 +5,7 @@ Abstract type for representing directed graphs.
 """
 abstract type AbstractIndexedDiGraph{T} <: AbstractIndexedGraph{T}; end
 
-edges(g::AbstractIndexedDiGraph) = (IndexedEdge{Int}(i, g.A.rowval[k], k) for i=1:size(g.A,2) for k=nzrange(g.A,i))
+edges(g::AbstractIndexedDiGraph) = @inbounds (IndexedEdge{Int}(i, g.A.rowval[k], k) for i=1:size(g.A,2) for k=nzrange(g.A,i))
 ne(g::AbstractIndexedDiGraph) = nnz(g.A)
 
 is_directed(g::AbstractIndexedDiGraph) = true
@@ -16,7 +16,7 @@ is_directed(::Type{AbstractIndexedDiGraph{T}}) where T = true
 
 Return a lazy iterator to the edges outgoing from node `i` in `g`.
 """
-outedges(g::AbstractIndexedDiGraph, i::Integer) = (IndexedEdge{Int}(i, g.A.rowval[k], k) for k in nzrange(g.A, i))
+outedges(g::AbstractIndexedDiGraph, i::Integer) = @inbounds (IndexedEdge{Int}(i, g.A.rowval[k], k) for k in nzrange(g.A, i))
 
 edge_idx(g::AbstractIndexedDiGraph, src::Integer, dst::Integer) = nzindex(g.A, dst, src)
 edge_src_dst(g::AbstractIndexedDiGraph, id::Integer) = reverse(nzindex(g.A, id))

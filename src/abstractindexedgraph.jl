@@ -24,7 +24,7 @@ nv(g::AbstractIndexedGraph) = size(g.A, 2)
 
 vertices(g::AbstractIndexedGraph) = 1:size(g.A, 2)
 
-outneighbors(g::AbstractIndexedGraph, i::Integer) = @view g.A.rowval[nzrange(g.A,i)]
+outneighbors(g::AbstractIndexedGraph, i::Integer) = @inbounds @view g.A.rowval[nzrange(g.A,i)]
 
 # Returns sparse adj matrix. Elements default to Int (to match Graphs)
 function adjacency_matrix(g::AbstractIndexedGraph, T::DataType=Int)

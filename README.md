@@ -51,14 +51,21 @@ outputs:
 ```
 
 ## Benchmark
-Performance on [Dijkstra's algorithm](https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm) compared with the packages listed above, as computed [here](https://github.com/stecrotti/IndexedGraphs.jl/blob/main/benchmark/dijkstra_benchmark.jl) for a random directed graph of size 5000.
+Performance on [Dijkstra's algorithm](https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm) compared with the packages listed above, as computed [here](https://github.com/stecrotti/IndexedGraphs.jl/blob/main/benchmark/dijkstra_benchmark.jl) for a random symmetric weight matrix of size 5000.
+
 ```
-IndexedGraphs:
-  23.180 ms (35 allocations: 468.94 KiB)
-MatrixNetworks:
-  26.894 ms (14 allocations: 1.09 MiB)
-Graphs
-  1.201 s (45 allocations: 808.39 KiB)
-SimpleWeightedGraphs:
-  1.274 s (45 allocations: 808.39 KiB)
+IndexedDiGraph:
+  39.125 ms (35 allocations: 472.06 KiB)
+IndexedGraph:
+  205.948 ms (35 allocations: 472.06 KiB)
+MatrixNetwork:
+  45.945 ms (14 allocations: 1.71 MiB)
+SimpleGraph
+  2.402 s (45 allocations: 808.39 KiB)
+SimpleWeightedGraph:
+  2.880 s (45 allocations: 808.39 KiB)
+ValGraph (SimpleValueGraphs.Experimental):
+  55.389 ms (48 allocations: 804.14 KiB)
 ```
+
+For a directed graph, in cases like this where there is no need to modify edge properties, an `IndexedDiGraph` with symmetric adjacency matrix is more efficient than an undirected `IndexedGraph`.

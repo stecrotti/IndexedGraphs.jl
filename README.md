@@ -68,4 +68,5 @@ ValGraph (SimpleValueGraphs.Experimental):
   55.389 ms (48 allocations: 804.14 KiB)
 ```
 
-For a directed graph, in cases like this where there is no need to modify edge properties, an `IndexedDiGraph` with symmetric adjacency matrix is more efficient than an undirected `IndexedGraph`.
+**Note**: For an undirected graph, `IndexedGraph` gives one unique index to each undirected edge (`i=>j` and `i=>j` have the same index). This makes the memory layout less efficient when traversing the graph (although it is very efficient to modify the properties compared with the alternatives). 
+If no property modification is needed, as is the case with Dijkstra, it is more convenient to just employ an `IndexedDiGraph` with symmetric edges and weights.

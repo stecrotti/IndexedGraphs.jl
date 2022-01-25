@@ -14,6 +14,7 @@ function dijkstra_shortest_paths(g::AbstractIndexedGraph,
     pathcounts = zeros(nvg)
     preds = fill(Vector{U}(), nvg)
     H::TrackingHeap{Int64, T, 2, MinHeapOrder, NoTrainingWheels} = TrackingHeap(T; S=NoTrainingWheels)
+    sizehint!(H, nvg)
 
     for src in srcs
         dists[src] = zero(T)

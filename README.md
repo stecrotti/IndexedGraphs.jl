@@ -51,21 +51,21 @@ outputs:
 ```
 
 ## Benchmark
-Performance on [Dijkstra's algorithm](https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm) compared with the packages listed above, as computed [here](https://github.com/stecrotti/IndexedGraphs.jl/blob/main/benchmark/dijkstra_benchmark.jl) for a random symmetric weight matrix of size 5000.
+Performance on [Dijkstra's algorithm](https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm) compared with the packages listed above, as computed [here](https://github.com/stecrotti/IndexedGraphs.jl/blob/main/benchmark/dijkstra_benchmark.jl) for a random symmetric weight matrix with 10^4 nodes and ~10^5 edges.
 
 ```
 IndexedDiGraph:
-  39.125 ms (35 allocations: 472.06 KiB)
+  2.840 ms (22 allocations: 547.91 KiB)
 IndexedGraph:
-  205.948 ms (35 allocations: 472.06 KiB)
+  3.131 ms (22 allocations: 547.91 KiB)
 MatrixNetwork:
-  45.945 ms (14 allocations: 1.71 MiB)
+  3.031 ms (13 allocations: 407.45 KiB)
 SimpleGraph
-  2.402 s (45 allocations: 808.39 KiB)
+  11.935 ms (45 allocations: 1008.58 KiB)
 SimpleWeightedGraph:
-  2.880 s (45 allocations: 808.39 KiB)
+  10.610 ms (45 allocations: 1008.58 KiB)
 ValGraph (SimpleValueGraphs.Experimental):
-  55.389 ms (48 allocations: 804.14 KiB)
+  6.620 ms (48 allocations: 1000.06 KiB)
 ```
 
 **Note**: For an undirected graph, `IndexedGraph` gives one unique index to each undirected edge (`i=>j` and `i=>j` have the same index). This makes the memory layout less efficient when traversing the graph (although it is very efficient to modify the properties compared with the alternatives). 

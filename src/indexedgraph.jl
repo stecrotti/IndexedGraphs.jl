@@ -13,7 +13,7 @@ struct IndexedGraph{T<:Integer} <: AbstractIndexedGraph{T}
     function IndexedGraph(A::SparseMatrixCSC{T}) where T
         _checksquare(A)
         _check_selfloops(A)
-        M = SparseMatrixCSC(A.m, A.n, A.colptr, A.rowval, zeros(Int, nnz(A)))
+        M = SparseMatrixCSC(A.m, A.n, A.colptr, A.rowval, ones(Int, nnz(A)))
         idx_map = inverse_edge_idx(M)
         cnt = 1
         # give increasing indices to upper triangular elements
@@ -50,7 +50,7 @@ IndexedGraph(A::AbstractMatrix) = IndexedGraph(convert(SparseMatrixCSC, A))
 
 function edges(g::IndexedGraph) 
     (IndexedEdge{Int}(i, g.A.rowval[k], g.A.nzval[k])
-        for i=1:size(g.A,2) for k=nzrange(g.A,i) if i < g.A.rowval[k])
+        for i=1:size(g.A,2) for k=nzrange(g.A,i) if i > g.A.rowval[k])
 end
 
 ne(g::IndexedGraph) = Int( nnz(g.A) / 2 ) 

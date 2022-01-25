@@ -8,8 +8,8 @@ using LinearAlgebra
 
 
 # build directed graph
-N = 5_000
-W = sprand(N, N, 0.3)
+N = 10_000
+W = sprand(N, N, 5/N)
 # remove self loops
 for i in 1:size(W,2); W[i,i] = 0; end
 dropzeros!(W)
@@ -58,11 +58,11 @@ println("IndexedDiGraph:")
 @btime dijkstra_shortest_paths($gD, $s, $wD)
 println("IndexedGraph:")
 @btime dijkstra_shortest_paths($g, $s, $w)
-println("MatrixNetworks:")
+println("MatrixNetwork:")
 @btime MatrixNetworks.dijkstra($g_MN, $s)
 println("SimpleGraph")
 @btime dijkstra_shortest_paths($g_Graphs, $s, $W)
 println("SimpleWeightedGraph:")
 @btime dijkstra_shortest_paths($g_SWG, $s);
-println("SimpleValueGraph:")
+println("ValGraph (SimpleValueGraphs.Experimental):")
 @btime SimpleValueGraphs.Experimental.dijkstra_shortest_paths($g_SVG, $s);

@@ -3,21 +3,22 @@ module IndexedGraphs
 import SparseArrays:
     sparse, SparseMatrixCSC, nnz, nzrange, rowvals, nonzeros, spzeros
 
-import Base: 
+import Base:
     show, ==
 
-import Graphs:
-    AbstractGraph, AbstractEdge, src, dst, edgetype, has_vertex, has_edge, ne, nv, 
+using Reexport
+@reexport import Graphs:
+    AbstractGraph, AbstractEdge, src, dst, edgetype, has_vertex, has_edge, ne, nv,
     edges, vertices, neighbors, inneighbors, outneighbors, is_directed, is_bipartite,
     DijkstraState, dijkstra_shortest_paths
 
 import Graphs.LinAlg:
     adjacency_matrix
 
-import LinearAlgebra: 
+import LinearAlgebra:
     issymmetric
 
-import TrackingHeaps: 
+import TrackingHeaps:
     TrackingHeap, pop!, NoTrainingWheels, MinHeapOrder
 
 export
@@ -28,7 +29,7 @@ export
     # directed graphs
     AbstractIndexedDiGraph, IndexedDiGraph, IndexedBiDiGraph,
     # factor graphs
-    FactorGraph, VariableOrFactor, Variable, Factor, FactorGraphEdge, 
+    FactorGraph, VariableOrFactor, Variable, Factor, FactorGraphEdge,
     nvariables, nfactors, variables, factors, bipartite_view
 
 """

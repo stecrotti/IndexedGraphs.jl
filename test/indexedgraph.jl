@@ -13,16 +13,15 @@ g = IndexedGraph(A)
         i = 3
         es = inedges(g, i)
         neigs = neighbors(g, i)
-        for (e, j) in zip(es, neigs)
-            @test ((src(e), dst(e)) == (i, j)) || ((src(e), dst(e)) == (j, i))
-        end
+        @test all(
+            ((src(e), dst(e)) == (i, j)) || ((src(e), dst(e)) == (j, i))
+            for (e, j) in zip(es, neigs)
+        )
     end
 
     @testset "edge indexing" begin
-        for e in edges(g)
-            @test e == get_edge(g, src(e), dst(e)) 
-            @test e == get_edge(g, idx(e))
-        end
+        @test all( e == get_edge(g, src(e), dst(e)) for e in edges(g) )
+        @test all( e == get_edge(g, idx(e)) for e in edges(g) )
     end
 
     @testset "construct from SimpleGraph" begin

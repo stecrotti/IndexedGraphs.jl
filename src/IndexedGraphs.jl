@@ -10,7 +10,8 @@ using Reexport
 @reexport import Graphs:
     AbstractGraph, AbstractEdge, src, dst, edgetype, has_vertex, has_edge, ne, nv,
     edges, vertices, neighbors, inneighbors, outneighbors, is_directed, is_bipartite,
-    DijkstraState, dijkstra_shortest_paths
+    DijkstraState, dijkstra_shortest_paths, 
+    SimpleGraph, SimpleDiGraph, AbstractSimpleGraph
 
 import Graphs.LinAlg:
     adjacency_matrix

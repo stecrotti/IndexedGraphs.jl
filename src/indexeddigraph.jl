@@ -75,6 +75,14 @@ function IndexedDiGraph(A::AbstractMatrix)
     IndexedDiGraph(At)
 end
 
+"""
+    IndexedDiGraph(A::AbstractSimpleGraph)
+
+Construct an `IndexedDiGraph` from any `AbstractSimpleGraph` (Graphs.jl), 
+directed or otherwise.
+"""
+IndexedDiGraph(sg::AbstractSimpleGraph) = IndexedDiGraph(adjacency_matrix(sg))
+
 # WARNING: very slow! Not recommended, if you need inneighbors, check out `IndexedBiDiGraph`
 # here only to comply with the requirements for subtyping `AbstractGraph` from Graphs.jl
 function inneighbors(g::IndexedDiGraph, i::Integer) 

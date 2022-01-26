@@ -49,7 +49,7 @@ Construct an `IndexedGraph` from symmetric adjacency matrix A.
 IndexedGraph(A::AbstractMatrix) = IndexedGraph(convert(SparseMatrixCSC, A))
 
 function edges(g::IndexedGraph) 
-    (IndexedEdge{Int}(i, g.A.rowval[k], g.A.nzval[k])
+    (IndexedEdge{Int}(extrema((i, g.A.rowval[k]))..., g.A.nzval[k])
         for i=1:size(g.A,2) for k=nzrange(g.A,i) if i > g.A.rowval[k])
 end
 

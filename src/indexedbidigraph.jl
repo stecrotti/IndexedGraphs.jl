@@ -31,6 +31,14 @@ function IndexedBiDiGraph(A::AbstractMatrix)
     IndexedBiDiGraph(At, X)
 end
 
+"""
+    IndexedBiDiGraph(A::AbstractSimpleGraph)
+
+Construct an `IndexedBiDiGraph` from any `AbstractSimpleGraph` (Graphs.jl), 
+directed or otherwise.
+"""
+IndexedBiDiGraph(sg::AbstractSimpleGraph) = IndexedBiDiGraph(adjacency_matrix(sg))
+
 inneighbors(g::IndexedBiDiGraph, i::Integer) = @inbounds @view g.X.rowval[nzrange(g.X,i)]
 
 Base.zero(g::IndexedBiDiGraph) = IndexedBiDiGraph(zero(g.A))

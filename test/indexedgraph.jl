@@ -24,4 +24,10 @@ g = IndexedGraph(A)
             @test e == get_edge(g, idx(e))
         end
     end
+
+    @testset "construct from SimpleGraph" begin
+        sg = SimpleGraph(A)
+        ig = IndexedGraph(sg)
+        @test adjacency_matrix(sg) == adjacency_matrix(ig)
+    end
 end

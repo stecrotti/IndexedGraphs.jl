@@ -33,4 +33,14 @@ g = IndexedBiDiGraph(A)
             @test ee == e
         end
     end
+    
+    @testset "construct from SimpleGraph" begin
+        sg = SimpleDiGraph(A)
+        ig = IndexedBiDiGraph(sg)
+        @test adjacency_matrix(sg) == adjacency_matrix(ig)
+        S = A + A'
+        sg = SimpleDiGraph(S)
+        ig = IndexedBiDiGraph(sg)
+        @test adjacency_matrix(sg) == adjacency_matrix(ig)
+    end
 end

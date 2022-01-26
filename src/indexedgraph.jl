@@ -48,6 +48,13 @@ Construct an `IndexedGraph` from symmetric adjacency matrix A.
 """
 IndexedGraph(A::AbstractMatrix) = IndexedGraph(convert(SparseMatrixCSC, A))
 
+"""
+    IndexedGraph(A::SimpleGraph)
+
+Construct an `IndexedGraph` from undirected `SimpleGraph` (Graphs.jl).
+"""
+IndexedGraph(sg::SimpleGraph) = IndexedGraph(adjacency_matrix(sg))
+
 function edges(g::IndexedGraph) 
     (IndexedEdge{Int}(extrema((i, g.A.rowval[k]))..., g.A.nzval[k])
         for i=1:size(g.A,2) for k=nzrange(g.A,i) if i > g.A.rowval[k])
@@ -121,5 +128,3 @@ function get_edge(g::IndexedGraph, id::Integer)
     i, j = edge_src_dst(g, id)
     IndexedEdge(i, j, id)
 end
-
-

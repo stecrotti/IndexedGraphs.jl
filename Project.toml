@@ -12,6 +12,7 @@ TrackingHeaps = "d94bfb22-46ad-56c3-87d0-f6c298cb800e"
 
 [compat]
 Graphs = "1.4"
+Reexport = "1"
 TrackingHeaps = "0.1"
 julia = "1"
 

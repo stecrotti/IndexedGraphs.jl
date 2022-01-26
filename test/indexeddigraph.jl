@@ -25,13 +25,16 @@ g = IndexedDiGraph(A)
     end
 
     @testset "edge indexing" begin
-        for e in edges(g)
-            @test e == get_edge(g, src(e), dst(e)) 
-            @test e == get_edge(g, idx(e))
+        @test all( e == get_edge(g, src(e), dst(e)) for e in edges(g) )
+        @test all( e == get_edge(g, idx(e)) for e in edges(g) )
+
+        passed = falses(ne(g))
+        for (i,e) in enumerate(edges(g))
             id = idx(get_edge(g, src(e), dst(e)))
             ee = get_edge(g, id)
-            @test ee == e
+            passed[i] = ee == e
         end
+        @test all(passed)
     end
 
     @testset "construct from SimpleGraph" begin

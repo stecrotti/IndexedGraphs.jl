@@ -17,25 +17,19 @@ g = FactorGraph(A)
         i = 3
         es = edges(g, Variable(i))
         neigs = neighbors(g, Variable(i))
-        for (e, a) in zip(es, neigs)
-            @test (e.a, e.i) == (a, i)
-        end
+        @test all( (e.a, e.i) == (a, i) for (e, a) in zip(es, neigs) )
     end
 
     @testset "neighbors of factor" begin
         a = 9
         es = edges(g, Factor(a))
         neigs = neighbors(g, Factor(a))
-        for (e, i) in zip(es, neigs)
-            @test (e.a, e.i) == (a, i)
-        end
+        @test all( (e.a, e.i) == (a, i) for (e, i) in zip(es, neigs) )
     end
 
     @testset "edge indexing" begin
-        for e in edges(g)
-            @test e == get_edge(g, Factor(e.a), Variable(e.i)) 
-            @test e == get_edge(g, idx(e))
-        end
+        @test all( e == get_edge(g, Factor(e.a), Variable(e.i)) for e in edges(g) )
+        @test all( e == get_edge(g, idx(e)) for e in edges(g) )
     end
 
     @testset "bipartiteness" begin

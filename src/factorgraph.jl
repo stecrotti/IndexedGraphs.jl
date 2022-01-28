@@ -14,7 +14,6 @@ struct FactorGraph{T<:Integer} <: AbstractIndexedGraph{T}
 end
 
 function FactorGraph(A::AbstractMatrix{NullNumber})
-    _check_selfloops(A)
     A = sparse(A)
     X = sparse(SparseMatrixCSC(A.m, A.n, A.colptr, A.rowval, collect(1:nnz(A)))')
     FactorGraph(A, X)

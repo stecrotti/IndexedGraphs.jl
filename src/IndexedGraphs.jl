@@ -4,7 +4,7 @@ import SparseArrays:
     sparse, SparseMatrixCSC, nnz, nzrange, rowvals, nonzeros, spzeros
 
 import Base:
-    show, ==
+    show, ==, iterate
 
 using Reexport
 @reexport import Graphs:
@@ -23,7 +23,7 @@ import TrackingHeaps:
     TrackingHeap, pop!, NoTrainingWheels, MinHeapOrder
 
 export
-    idx, ==,
+    idx, ==, iterate,
     AbstractIndexedGraph, inedges, outedges,
     # undirected graphs
     IndexedGraph, get_edge,
@@ -67,8 +67,9 @@ function Base.show(io::IO, e::AbstractIndexedEdge)
     print(io, "Indexed Edge $(src(e)) => $(dst(e)) with index $(idx(e))")
 end
 
-include("utils.jl")
+Base.iterate(e::IndexedEdge, args...) = iterate((e.src, e.dst, e.idx), args...)
 
+include("utils.jl")
 include("abstractindexedgraph.jl")
 include("indexedgraph.jl")
 include("indexeddigraph.jl")

@@ -30,3 +30,11 @@ g = IndexedGraph(A)
         @test adjacency_matrix(sg) == adjacency_matrix(ig)
     end
 end
+
+@testset "iterator within edge" begin
+    es = map(edges(g)) do e
+        i, j, ij = e
+        i==src(e) && j == dst(e) && ij == idx(e)
+    end
+    @test all(es)    
+end

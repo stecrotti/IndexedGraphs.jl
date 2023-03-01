@@ -6,6 +6,14 @@ dropzeros!(A)
 g = FactorGraph(A)
 
 @testset "factor graph" begin
+
+    @testset "show" begin
+        buf = IOBuffer()
+        show(buf, g)
+        @test String(take!(buf)) == "FactorGraph{$(Int)} with $(nvariables(g)) variables,"*
+            " $(nfactors(g)) factors\n"
+    end
+
     @testset "basics" begin
         @test is_bipartite(g)
         @test !is_directed(g)

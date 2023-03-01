@@ -7,6 +7,13 @@ dropzeros!(A)
 g = IndexedGraph(A)
 
 @testset "undirected graph" begin
+
+    @testset "show" begin
+        buf = IOBuffer()
+        show(buf, g)
+        @test String(take!(buf)) == "{20, $(ne(g))} undirected IndexedGraph{$(Int)}\n"
+    end
+
     @testset "basics" begin
         @test !is_directed(g)
         @test length(collect(edges(g))) == ne(g)

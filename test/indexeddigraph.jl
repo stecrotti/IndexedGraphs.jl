@@ -7,6 +7,12 @@ g = IndexedDiGraph(A)
 
 @testset "directed graph" begin
 
+    @testset "show" begin
+        buf = IOBuffer()
+        show(buf, g)
+        @test String(take!(buf)) == "{20, $(ne(g))} IndexedDiGraph{$(Int)}\n"
+    end
+
     @testset "transpose constructor" begin
         At = sparse(A')
         gg = IndexedDiGraph( transpose(At) )

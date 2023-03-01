@@ -7,6 +7,12 @@ g = IndexedBiDiGraph(A)
 
 @testset "BiDirected graph" begin
 
+    @testset "show" begin
+        buf = IOBuffer()
+        show(buf, g)
+        @test String(take!(buf)) == "{20, $(ne(g))} IndexedBiDiGraph{$(Int)}\n"
+    end
+
     @testset "transpose constructor" begin
         At = sparse(A')
         gg = IndexedBiDiGraph( transpose(At) )

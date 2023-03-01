@@ -60,6 +60,10 @@ function edges(g::IndexedGraph)
         for i=1:size(g.A,2) for k=nzrange(g.A,i) if i > g.A.rowval[k])
 end
 
+function Base.show(io::IO, g::IndexedGraph{T}) where T
+    println(io, "{$(nv(g)), $(ne(g))} undirected IndexedGraph{$T}")
+end
+
 ne(g::IndexedGraph) = Int( nnz(g.A) / 2 ) 
 
 neighbors(g::IndexedGraph, i::Integer) = outneighbors(g, i)

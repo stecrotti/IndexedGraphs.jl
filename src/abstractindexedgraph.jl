@@ -6,15 +6,14 @@ An abstract type representing an indexed graph.
 """
 abstract type AbstractIndexedGraph{T} <: AbstractGraph{T} end
 
-function Base.show(io::IO, g::AbstractIndexedGraph)
+function Base.show(io::IO, g::AbstractIndexedGraph{T}) where T
     s = is_directed(g) ? "directed" : "undirected"
-    println(io, "{$(nv(g)), $(ne(g))} ", s, " sparse ", eltype(g), " graph")
-    Base.print_array(io, adjacency_matrix(g))
+    println(io, "{$(nv(g)), $(ne(g))} ", s, " AbstractIndexedGraph{$T}")
 end
 
-Base.eltype(g::AbstractIndexedGraph{T}) where T = T
+Base.eltype(::AbstractIndexedGraph{T}) where T = T
 
-edgetype(g::AbstractIndexedGraph{T}) where T = IndexedEdge{T}
+edgetype(::AbstractIndexedGraph{T}) where T = IndexedEdge{T}
 
 has_vertex(g::AbstractIndexedGraph, i::Integer) = i ≤ size(g.A, 2)
 

@@ -91,3 +91,7 @@ function inneighbors(g::IndexedDiGraph, i::Integer)
 end 
 
 Base.zero(g::IndexedDiGraph) = IndexedDiGraph(zero(g.A))
+
+function Base.show(io::IO, g::IndexedDiGraph{T}) where T
+    println(io, "{$(nv(g)), $(ne(g))} IndexedDiGraph{$T}")
+end

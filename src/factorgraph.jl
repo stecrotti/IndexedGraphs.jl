@@ -30,6 +30,12 @@ function FactorGraph(A::AbstractMatrix)
 	FactorGraph(SparseMatrixCSC(A.m, A.n, A.colptr, A.rowval, fill(NullNumber(), length(A.nzval))))
 end
 
+function Base.show(io::IO, g::FactorGraph{T}) where T
+    nvar = nvariables(g)
+    nfact = nfactors(g)
+    println(io, "FactorGraph{$T} with $nvar variables, $nfact factors")
+end
+
 abstract type VariableOrFactor{T<:Integer}; end
 
 """

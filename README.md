@@ -68,5 +68,5 @@ ValGraph (SimpleValueGraphs.Experimental):
   6.620 ms (48 allocations: 1000.06 KiB)
 ```
 
-**Note**: For an undirected graph, `IndexedGraph` gives one unique index to each undirected edge (`i=>j` and `i=>j` have the same index). This makes the memory layout less efficient when traversing the graph (although it is very efficient to modify the properties compared with the alternatives). 
+**Note**: For an undirected graph, `IndexedGraph` gives one unique index to each undirected edge (`i=>j` and `j=>i` have the same index). This makes the memory layout less efficient when traversing the graph (although it is very efficient to modify the properties compared with the alternatives). 
 If no property modification is needed, as is the case with Dijkstra, it is more convenient to just employ an `IndexedDiGraph` with symmetric edges and weights.

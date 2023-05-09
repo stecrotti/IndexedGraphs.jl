@@ -9,7 +9,7 @@ edges(g::AbstractIndexedDiGraph) = @inbounds (IndexedEdge{Int}(i, g.A.rowval[k],
 ne(g::AbstractIndexedDiGraph) = nnz(g.A)
 
 is_directed(g::AbstractIndexedDiGraph) = true
-is_directed(::Type{AbstractIndexedDiGraph{T}}) where T = true
+is_directed(::Type{<:AbstractIndexedDiGraph}) = true
 
 """
     outedges(g::AbstractIndexedDiGraph, i::Integer)

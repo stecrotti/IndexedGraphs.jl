@@ -21,6 +21,7 @@ g = IndexedBiDiGraph(A)
     end
 
     @testset "basics" begin
+        @test is_directed(typeof(g))
         @test is_directed(g)
         @test length(collect(edges(g))) == ne(g)
         i = 3

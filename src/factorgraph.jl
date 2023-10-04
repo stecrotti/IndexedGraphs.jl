@@ -134,7 +134,7 @@ function edges(g::FactorGraph, v::Variable)
 end
 
 """
-    neighbors(g::FactorGraph, f::Factor)
+    edges(g::FactorGraph, f::Factor)
 
 Return a lazy iterator to the edges incident to factor `f`
 """

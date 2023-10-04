@@ -30,6 +30,19 @@ function FactorGraph(A::AbstractMatrix)
 	FactorGraph(SparseMatrixCSC(A.m, A.n, A.colptr, A.rowval, fill(NullNumber(), length(A.nzval))))
 end
 
+"""
+    FactorGraph(g::IndexedGraph)
+
+Construct a factor graph whose factors are the pair-wise interactions encoded in `g`.
+"""
+function FactorGraph(g::IndexedGraph)
+    I = reduce(vcat, [idx(e), idx(e)] for e in edges(g)) 
+    J = reduce(vcat, [src(e), dst(e)] for e in edges(g)) 
+    K = ones(Int, 2*ne(g))
+    A = sparse(I, J, K)
+    FactorGraph(A)
+end
+
 function Base.show(io::IO, g::FactorGraph{T}) where T
     nvar = nvariables(g)
     nfact = nfactors(g)
@@ -175,7 +188,7 @@ end
 has_vertex(g::FactorGraph, v::Variable) = v.i ≤ nvariables(g)
 has_vertex(g::FactorGraph, f::Factor) = f.a ≤ nfactors(g)
 has_vertex(g::FactorGraph, i::Int) = i ≤ nv(g)
-has_edge(g::FactorGraph, f::Factor, v::Variable) = g.A[f.a, v.i] != 0
+has_edge(g::FactorGraph, f::Factor, v::Variable) = !iszero(g.A[f.a, v.i])
 has_edge(g::FactorGraph, v::Variable, f::Factor) = has_edge(g, f, v)
 
 # return true if (src, dst) is an edge in the bipartite view of g

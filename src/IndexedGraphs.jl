@@ -24,7 +24,7 @@ import TrackingHeaps:
 
 export
     idx, ==, iterate,
-    AbstractIndexedGraph, inedges, outedges,
+    AbstractIndexedGraph, inedges, outedges, adjacency_matrix,
     # undirected graphs
     IndexedGraph, get_edge,
     # directed graphs

@@ -143,7 +143,7 @@ Return a lazy iterator to the edges incident to variable `v`
 """
 function edges(g::FactorGraph, v::Variable)
     i = v.i
-    (FactorGraphEdge( g.A.rowval[k], i, k) for k in nzrange(g.A, i))
+    (FactorGraphEdge(g.A.rowval[k], i, k) for k in nzrange(g.A, i))
 end
 
 """
@@ -153,7 +153,7 @@ Return a lazy iterator to the edges incident to factor `f`
 """
 function edges(g::FactorGraph, f::Factor)
     a = f.a
-    (FactorGraphEdge(a, g.X.rowval[k], k) for k in nzrange(g.X, a))
+    (FactorGraphEdge(a, g.X.rowval[k], g.X.nzval[k]) for k in nzrange(g.X, a))
 end
 inedges(g::FactorGraph, x::VariableOrFactor) = edges(g, x)
 outedges(g::FactorGraph, x::VariableOrFactor) = edges(g, x)

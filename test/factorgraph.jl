@@ -44,4 +44,20 @@ g = FactorGraph(A)
         gg = bipartite_view(g)
         @test is_bipartite(gg)
     end
+
+    @testset "from pairwise graph" begin
+        B = sprand(Bool, 20, 20, 0.5)
+        for i in 1:20; B[i,i] = 0; end
+        B = B + B'
+        dropzeros!(B)
+        gpair = IndexedGraph(B)
+        gfact = FactorGraph(gpair)
+        @test nfactors(gfact) == ne(gpair)
+        @test nvariables(gfact) == nv(gpair)
+        @test all(
+            has_edge(gfact, Variable(i), Factor(id)) &&
+            has_edge(gfact, Variable(j), Factor(id))
+            for (i, j, id) in edges(gpair)
+            )
+    end
 end

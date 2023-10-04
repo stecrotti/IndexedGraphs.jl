@@ -8,6 +8,7 @@ FactorGraph
 
 ```@docs
 FactorGraph(A::AbstractMatrix)
+FactorGraph(g::IndexedGraph)
 ```
 
 ```@meta

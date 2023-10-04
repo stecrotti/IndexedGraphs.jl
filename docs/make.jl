@@ -15,4 +15,5 @@ makedocs(sitename="IndexedGraphs Documentation",
 
 deploydocs(
     repo = "github.com/stecrotti/IndexedGraphs.jl.git",
+    push_preview = true,
 )

@@ -12,6 +12,7 @@ using Reexport
     edges, vertices, neighbors, inneighbors, outneighbors, is_directed, is_bipartite,
     DijkstraState, dijkstra_shortest_paths, 
     SimpleGraph, SimpleDiGraph, AbstractSimpleGraph
+using Graphs
 
 import Graphs.LinAlg:
     adjacency_matrix
@@ -31,7 +32,9 @@ export
     AbstractIndexedDiGraph, IndexedDiGraph, IndexedBiDiGraph,
     # factor graphs
     FactorGraph, VariableOrFactor, Variable, Factor, FactorGraphEdge,
-    nvariables, nfactors, variables, factors, bipartite_view
+    nvariables, nfactors, variables, factors, bipartite_view,
+    # bipartite graphs
+    BipartiteIndexedGraph
 
 """
     AbstractIndexedEdge{T<:Integer} <: AbstractEdge{T}
@@ -75,6 +78,7 @@ include("indexedgraph.jl")
 include("indexeddigraph.jl")
 include("indexedbidigraph.jl")
 include("factorgraph.jl")
+include("bipartite.jl")
 
 include("algorithms/dijkstra.jl")
 

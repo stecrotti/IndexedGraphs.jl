@@ -1,4 +1,4 @@
-using Graphs
+using Graphs, IndexedGraphs, SparseArrays
 
 @testset "bipartite graph" begin
     nl = 15
@@ -13,7 +13,7 @@ using Graphs
     @test all(collect(neighbors(g,i)) == collect(neighbors(gb, i)) for i in vertices(g))
     @test all(collect(inedges(g,i)) == collect(inedges(gb, i)) for i in vertices(g))
     @test all(collect(outedges(g,i)) == collect(outedges(gb, i)) for i in vertices(g))
-    
+
     distmx = adjacency_matrix(g) .* rand(n,n)
     distvec = nonzeros(permutedims(distmx))
     sources = rand(1:n, 10)

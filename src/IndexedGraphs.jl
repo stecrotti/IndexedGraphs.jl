@@ -32,7 +32,8 @@ export
     AbstractIndexedDiGraph, IndexedDiGraph, IndexedBiDiGraph,
     # bipartite graphs
     BipartiteIndexedGraph, Left, Right, LeftorRight, BipartiteGraphVertex,
-    nv_left, nv_right, vertex, linearindex, vertices_left, vertices_right
+    nv_left, nv_right, vertex, linearindex, vertices_left, vertices_right,
+    vertex_left, vertex_right
 
 """
     AbstractIndexedEdge{T<:Integer} <: AbstractEdge{T}

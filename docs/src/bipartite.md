@@ -8,6 +8,8 @@ A `BipartiteIndexedGraph` behaves just like a bipartite, undirected `IndexedGrap
 - Vertices can be indexed as usual via their integer index (which is called here a [`linearindex`](@ref)), or via a [`BipartiteGraphVertex`](@ref), i.e. by specifying `Left` or `Right` and the integer index of that vertex within its block. The typical use case is that where one has two vectors storing vertex properties of the two blocks, possibly with different `eltype`s, and each with indices starting at one.
 - The adjacency matrix of a bipartite graph (possibly after permutation of the vertex indices) is made of two specular rectangular submatrices `A`. Only one of these is stored, leading to a slight improvement in efficiency.
 
+`BipartiteIndexedGraph`s use the same edge type `IndexedEdge` as the other `AbstractIndexedGraph`s, which stores source and destination as linear indices. To retrieve the in-block indices of the two vertices incident on an edge, use [`vertex_left`](@ref), [`vertex_right`](@ref).
+
 ```@docs
 BipartiteIndexedGraph
 ```
@@ -26,6 +28,8 @@ vertex(g::BipartiteIndexedGraph, i::Integer)
 linearindex
 vertices_left
 vertices_right
+vertex_left
+vertex_right
 inedges(g::BipartiteIndexedGraph, i::Integer)
 inedges(g::BipartiteIndexedGraph, l::BipartiteGraphVertex{Left})
 outedges(g::BipartiteIndexedGraph, i::Integer)

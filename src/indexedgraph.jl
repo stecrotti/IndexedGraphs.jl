@@ -82,7 +82,7 @@ Base.zero(g::IndexedGraph) = IndexedGraph(zero(g.A))
 Return a lazy iterators to the edges incident to `i`.
 
 By default unordered edges sort source and destination nodes in increasing order.
-See [outedges](@ref) and [inedges](@ref) if you need otherwise.
+See [`outedges`](@ref outedges(g::IndexedGraph, i::Integer)) and [`inedges`](@ref inedges(g::IndexedGraph, i::Integer)) if you need otherwise.
 """
 function edges(g::IndexedGraph, i::Integer)
     (IndexedEdge(extrema((i, g.A.rowval[k]))..., g.A.nzval[k]) 

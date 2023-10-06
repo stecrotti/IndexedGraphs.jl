@@ -11,8 +11,8 @@ IndexedGraph(A::AbstractMatrix)
 ```
 
 ```@docs
-inedges
-outedges
+inedges(g::IndexedGraph, i::Integer)
+outedges(g::IndexedGraph, i::Integer)
 get_edge(g::IndexedGraph, src::Integer, dst::Integer)
 ```
 

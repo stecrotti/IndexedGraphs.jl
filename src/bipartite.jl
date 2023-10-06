@@ -96,7 +96,6 @@ struct Right end
 """
 LeftorRight = Union{Left, Right}
 
-
 """
     BipartiteGraphVertex
 
@@ -183,6 +182,28 @@ function Graphs.has_edge(g::BipartiteIndexedGraph, s::Integer, d::Integer)
     _checkrightindex(g, rlin) || return false
     r = vertex(g, rlin).i
     return !iszero(g.A[l, r])
+end
+
+_ordered_edge(e::IndexedEdge) = extrema((src(e), dst(e)))
+
+"""
+    vertex_left(g::BipartiteIndexedGraph, e::IndexedEdge)
+
+Return the (in-block) index of the left-block vertex in `e`.
+"""
+function vertex_left(g::BipartiteIndexedGraph, e::IndexedEdge)
+    l, rlin = _ordered_edge(e)
+    return vertex(g, l).i
+end
+
+"""
+    vertex_right(g::BipartiteIndexedGraph, e::IndexedEdge)
+
+Return the (in-block) index of the right-block vertex in `e`.
+"""
+function vertex_right(g::BipartiteIndexedGraph, e::IndexedEdge)
+    l, rlin = _ordered_edge(e)
+    return vertex(g, rlin).i
 end
 
 """ 

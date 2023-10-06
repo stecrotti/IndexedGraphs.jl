@@ -30,9 +30,6 @@ export
     IndexedGraph, get_edge,
     # directed graphs
     AbstractIndexedDiGraph, IndexedDiGraph, IndexedBiDiGraph,
-    # factor graphs
-    FactorGraph, VariableOrFactor, Variable, Factor, FactorGraphEdge,
-    nvariables, nfactors, variables, factors, bipartite_view,
     # bipartite graphs
     BipartiteIndexedGraph, Left, Right, LeftorRight, BipartiteGraphVertex,
     nv_left, nv_right, vertex, linearindex, vertices_left, vertices_right
@@ -78,7 +75,6 @@ include("abstractindexedgraph.jl")
 include("indexedgraph.jl")
 include("indexeddigraph.jl")
 include("indexedbidigraph.jl")
-include("factorgraph.jl")
 include("bipartite.jl")
 
 include("algorithms/dijkstra.jl")

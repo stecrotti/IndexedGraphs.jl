@@ -34,7 +34,8 @@ export
     FactorGraph, VariableOrFactor, Variable, Factor, FactorGraphEdge,
     nvariables, nfactors, variables, factors, bipartite_view,
     # bipartite graphs
-    BipartiteIndexedGraph
+    BipartiteIndexedGraph, Left, Right, LeftorRight, BipartiteGraphVertex,
+    nv_left, nv_right, vertex, linearindex, vertices_left, vertices_right
 
 """
     AbstractIndexedEdge{T<:Integer} <: AbstractEdge{T}

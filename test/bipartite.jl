@@ -15,6 +15,7 @@ using Graphs, IndexedGraphs, SparseArrays
     @test all(collect(outedges(g,i)) == collect(outedges(gb, i)) for i in vertices(g))
     @test all(degree(g, i) == length(collect(neighbors(g, i))) for i in vertices(g))
     @test all(degree(g, i) == length(collect(inedges(g, i))) for i in vertices(g))
+    @test !is_directed(g) && !is_directed(typeof(g))
     @test adjacency_matrix(gb) == adjacency_matrix(g)
 
     distmx = adjacency_matrix(g) .* rand(n,n)

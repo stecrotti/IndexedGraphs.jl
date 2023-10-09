@@ -13,6 +13,7 @@ using Graphs, IndexedGraphs, SparseArrays
     @test all(collect(neighbors(g,i)) == collect(neighbors(gb, i)) for i in vertices(g))
     @test all(collect(inedges(g,i)) == collect(inedges(gb, i)) for i in vertices(g))
     @test all(collect(outedges(g,i)) == collect(outedges(gb, i)) for i in vertices(g))
+    @test all(has_edge(g, s, d) for (s, d) in edges(g))
     @test all(degree(g, i) == length(collect(neighbors(g, i))) for i in vertices(g))
     @test all(degree(g, i) == length(collect(inedges(g, i))) for i in vertices(g))
     @test !is_directed(g) && !is_directed(typeof(g))

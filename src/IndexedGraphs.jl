@@ -10,6 +10,7 @@ using Reexport
 @reexport import Graphs:
     AbstractGraph, AbstractEdge, src, dst, edgetype, has_vertex, has_edge, ne, nv,
     edges, vertices, neighbors, inneighbors, outneighbors, is_directed, is_bipartite,
+    degree,
     DijkstraState, dijkstra_shortest_paths, 
     SimpleGraph, SimpleDiGraph, AbstractSimpleGraph
 using Graphs

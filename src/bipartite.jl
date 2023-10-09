@@ -73,6 +73,7 @@ Graphs.ne(g::BipartiteIndexedGraph) = nnz(g.A)
 Graphs.nv(g::BipartiteIndexedGraph) = nv_left(g) + nv_right(g)
 
 Graphs.is_directed(g::BipartiteIndexedGraph) = false
+Graphs.is_directed(::Type{BipartiteIndexedGraph{T}}) where T = false
 Graphs.is_bipartite(g::BipartiteIndexedGraph) = true
 
 """

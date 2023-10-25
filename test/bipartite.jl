@@ -25,11 +25,22 @@ using Graphs, IndexedGraphs, SparseArrays
         @test all(degree(g, i) == length(collect(neighbors(g, i))) for i in vertices(g))
         @test all(degree(g, i) == length(collect(inedges(g, i))) for i in vertices(g))
         @test adjacency_matrix(gb) == adjacency_matrix(g)
+    end
 
+    @testset "left and right" begin
         vl = [linearindex(gb, i, Left) for i in 1:nv_left(gb)]
         vr = [linearindex(gb, i, Right) for i in 1:nv_right(gb)]
         @test vl == vertices_left(gb)
         @test vr == vertices_right(gb)
+
+        @test all(all(vertex_left(gb, e)==l for e in outedges(gb, vertex(l, Left))) 
+            for l in 1:nv_left(gb))
+        @test all(all(vertex_left(gb, e)==l for e in inedges(gb, vertex(l, Left))) 
+            for l in 1:nv_left(gb))
+        @test all(all(vertex_right(gb, e)==r for e in outedges(gb, vertex(r, Right))) 
+            for r in 1:nv_right(gb))
+        @test all(all(vertex_right(gb, e)==r for e in inedges(gb, vertex(r, Right))) 
+            for r in 1:nv_right(gb))
     end
 
     @testset "dijkstra" begin

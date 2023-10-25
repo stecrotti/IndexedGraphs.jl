@@ -25,7 +25,7 @@ A number of other packages implement graph based on CSC matrix representation or
 
 ## Navigating graphs
 The most natural and efficient way to iterate over an `IndexedGraph` is to iterate over neighboring nodes or edges
-```
+```julia
 A = [0 0 1;
      1 0 0;
      1 1 0]
@@ -35,25 +35,25 @@ out_i = outedges(g, i)
 collect(out_i)
 ```
 outputs:
-```
+```julia
 2-element Vector{IndexedGraphs.IndexedEdge{Int64}}:
  Indexed Edge 3 => 1 with index 4
  Indexed Edge 3 => 2 with index 5
 ```
 Edge indices, 4 and 5 in this case, can be extracted with `idx` and used to access properties stored in a separate container
-```
+```julia
 e = first(out_i)
 src(e), dst(e), idx(e)
 ```
 outputs:
-```
+```julia
 (3, 1, 4)
 ```
 
 ## Benchmark
 Performance on [Dijkstra's algorithm](https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm) compared with the packages listed above, as computed [here](https://github.com/stecrotti/IndexedGraphs.jl/blob/main/benchmark/dijkstra_benchmark.jl) for a random symmetric weight matrix with 10^4 nodes and ~10^5 edges.
 
-```
+```julia
 IndexedDiGraph:
   2.840 ms (22 allocations: 547.91 KiB)
 IndexedGraph:

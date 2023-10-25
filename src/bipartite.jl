@@ -161,18 +161,18 @@ Graphs.vertices(g::BipartiteIndexedGraph) = 1:nv(g)
 Graphs.has_vertex(g::BipartiteIndexedGraph, i::Integer) = i ∈ vertices(g)
 
 """
-    vertices_left(g::BipartiteGraphVertex)
+    vertices_left(g::BipartiteIndexedGraph)
 
 Return a lazy iterator to the vertices in the left block
 """
-vertices_left(g::BipartiteGraphVertex) = 1:nv_left(g)
+vertices_left(g::BipartiteIndexedGraph) = 1:nv_left(g)
 
 """
-    vertices right(g::BipartiteGraphVertex)
+    vertices right(g::BipartiteIndexedGraph)
 
 Return a lazy iterator to the vertices in the right block
 """
-vertices_right(g::BipartiteGraphVertex) = nv_left(g)+1:nv(g)
+vertices_right(g::BipartiteIndexedGraph) = nv_left(g)+1:nv(g)
 
 _checkrightindex(g::BipartiteIndexedGraph, i::Integer) = nv_left(g) + 1 ≤ i ≤ nv(g)
 

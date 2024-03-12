@@ -4,9 +4,8 @@ _Not all edges come with an index. These do_
 
 [![CI](https://github.com/stecrotti/IndexedGraphs.jl/actions/workflows/ci.yml/badge.svg)](https://github.com/stecrotti/IndexedGraphs.jl/actions/workflows/ci.yml)
 [![codecov](https://codecov.io/gh/stecrotti/IndexedGraphs.jl/branch/main/graph/badge.svg?token=CYLRPHU098)](https://codecov.io/gh/stecrotti/IndexedGraphs.jl)
-
-## Documentation
-https://stecrotti.github.io/IndexedGraphs.jl/dev
+[![docstable](https://img.shields.io/badge/docs-stable-blue.svg)](https://stecrotti.github.io/IndexedGraphs.jl/stable)
+[![docdev](https://img.shields.io/badge/docs-dev-blue.svg)](https://stecrotti.github.io/IndexedGraphs.jl/dev)
 
 ## Overview
 A **Graphs.jl**-compatible implementation of [SparseMatrixCSC](https://github.com/JuliaLang/SparseArrays.jl)-based graphs, allowing fast access to arbitrary edge properties

@@ -1,5 +1,6 @@
 [deps]
 Documenter = "e30172f5-a6a5-5a46-863b-614d45cd2de4"
+IndexedGraphs = "8a731c18-cfb7-4915-927e-cc26b56b67cd"
 
 [compat]
 Documenter = "1"

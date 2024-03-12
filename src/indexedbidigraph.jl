@@ -58,3 +58,12 @@ inedges(g::IndexedBiDiGraph, i::Integer) = @inbounds (IndexedEdge{Int}(g.X.rowva
 function adjacency_matrix(g::IndexedBiDiGraph, T::DataType=Int)
     SparseMatrixCSC(g.X.m, g.X.n, g.X.colptr, g.X.rowval, ones(T, nnz(g.X)))
 end
+
+struct CompleteIndexedBiDiGraph{T<:Integer} <: AbstractIndexedDiGraph{T}
+    g :: IndexedBiDiGraph{T}
+
+    function CompleteIndexedBiDiGraph(g::IndexedGraph{T}) where {T<:Integer}
+        gd = IndexedBiDiGraph(adjacency_matrix(g))
+        new{T}(gd)
+    end
+end

@@ -7,10 +7,12 @@ For a lighter data structure check out [IndexedDiGraph](@ref).
 
 ```@docs
 IndexedBiDiGraph
+CompleteIndexedBiDiGraph
 ```
 
 ```@docs
 IndexedBiDiGraph(A::AbstractMatrix)
+CompleteIndexedBiDiGraph(g::IndexedGraph)
 ```
 Example:
 ```@example
@@ -21,5 +23,3 @@ dropzeros!(At)
 g = IndexedBiDiGraph(transpose(At))  
 g.A.rowval === At.rowval
 ```
-
-

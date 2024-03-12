@@ -15,7 +15,7 @@ using Reexport
     SimpleGraph, SimpleDiGraph, AbstractSimpleGraph
 using Graphs
 
-import Graphs.LinAlg:
+@reexport import Graphs.LinAlg:
     adjacency_matrix
 
 import LinearAlgebra:
@@ -26,11 +26,12 @@ import TrackingHeaps:
 
 export
     idx, ==, iterate,
-    AbstractIndexedGraph, inedges, outedges, adjacency_matrix,
+    AbstractIndexedGraph, inedges, outedges,
     # undirected graphs
     IndexedGraph, get_edge,
     # directed graphs
     AbstractIndexedDiGraph, IndexedDiGraph, IndexedBiDiGraph,
+    CompleteIndexedBiDiGraph,
     # bipartite graphs
     BipartiteIndexedGraph, Left, Right, LeftorRight, BipartiteGraphVertex,
     nv_left, nv_right, vertex, linearindex, vertices_left, vertices_right,

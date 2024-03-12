@@ -59,11 +59,51 @@ function adjacency_matrix(g::IndexedBiDiGraph, T::DataType=Int)
     SparseMatrixCSC(g.X.m, g.X.n, g.X.colptr, g.X.rowval, ones(T, nnz(g.X)))
 end
 
+"""
+    CompleteIndexedBiDiGraph{T<:Integer} <: AbstractIndexedDiGraph{T}       
+
+A wrapper type over a `IndexedBiDiGraph` representing a sparse directed graph where between each pair of vertices `i,j` there exist either no edge or both directed edges `i=>j` and `j=>i`.
+
+### FIELDS
+
+- `g` -- the underlying digraph.
+"""
 struct CompleteIndexedBiDiGraph{T<:Integer} <: AbstractIndexedDiGraph{T}
     g :: IndexedBiDiGraph{T}
 
+    """
+        CompleteIndexedBiDiGraph(g::IndexedGraph)
+
+    Construct a `CompleteIndexedBiDiGraph` from an `IndexedGraph` `g` by building two directed edges per every undirected edge in `g`
+    """
     function CompleteIndexedBiDiGraph(g::IndexedGraph{T}) where {T<:Integer}
         gd = IndexedBiDiGraph(adjacency_matrix(g))
         new{T}(gd)
     end
 end
+
+function Base.show(io::IO, g::CompleteIndexedBiDiGraph{T}) where T
+    println(io, "{$(nv(g)), $(ne(g))} CompleteIndexedBiDiGraph{$T}")
+end
+
+Graphs.edgetype(g::CompleteIndexedBiDiGraph) = edgetype(g.g)
+Graphs.ne(g::CompleteIndexedBiDiGraph) = ne(g.g)
+Graphs.nv(g::CompleteIndexedBiDiGraph) = nv(g.g)
+Graphs.edges(g::CompleteIndexedBiDiGraph) = edges(g.g)
+Graphs.vertices(g::CompleteIndexedBiDiGraph) = vertices(g.g)
+Graphs.vertices(g::CompleteIndexedBiDiGraph) = vertices(g.g)
+Graphs.is_bipartite(g::CompleteIndexedBiDiGraph) = is_bipartite(g.g)
+Graphs.LinAlg.adjacency_matrix(g::CompleteIndexedBiDiGraph) = adjacency_matrix(g.g)
+
+Graphs.has_vertex(g::CompleteIndexedBiDiGraph, i::Integer) = has_vertex(g.g, i)
+Graphs.has_vertex(g::CompleteIndexedBiDiGraph, i::Integer) = has_vertex(g.g, i)
+Graphs.neighbors(g::CompleteIndexedBiDiGraph, i::Integer) = neighbors(g.g, i)
+Graphs.inneighbors(g::CompleteIndexedBiDiGraph, i::Integer) = inneighbors(g.g, i)
+Graphs.outneighbors(g::CompleteIndexedBiDiGraph, i::Integer) = outneighbors(g.g, i)
+Graphs.degree(g::CompleteIndexedBiDiGraph, i::Integer) = degree(g.g, i)
+
+inedges(g::CompleteIndexedBiDiGraph, i::Integer) = inedges(g.g, i)
+outedges(g::CompleteIndexedBiDiGraph, i::Integer) = outedges(g.g, i)
+
+get_edge(g::CompleteIndexedBiDiGraph, id::Integer) = get_edge(g.g, id)
+get_edge(g::CompleteIndexedBiDiGraph, src::Integer, dst::Integer) = get_edge(g.g, src, dst)

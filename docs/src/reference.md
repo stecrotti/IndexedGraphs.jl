@@ -1,5 +1,5 @@
 # Reference
 
-```@autodocs
+```@autodocs; canonical=false
 Modules = [IndexedGraphs]
 ```

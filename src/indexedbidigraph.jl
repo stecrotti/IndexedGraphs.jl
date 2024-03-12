@@ -71,7 +71,7 @@ A wrapper type over a `IndexedBiDiGraph` representing a sparse directed graph wh
 struct CompleteIndexedBiDiGraph{T<:Integer} <: AbstractIndexedDiGraph{T}
     g :: IndexedBiDiGraph{T}
 
-    """
+    @doc """
         CompleteIndexedBiDiGraph(g::IndexedGraph)
 
     Construct a `CompleteIndexedBiDiGraph` from an `IndexedGraph` `g` by building two directed edges per every undirected edge in `g`
@@ -91,12 +91,11 @@ Graphs.ne(g::CompleteIndexedBiDiGraph) = ne(g.g)
 Graphs.nv(g::CompleteIndexedBiDiGraph) = nv(g.g)
 Graphs.edges(g::CompleteIndexedBiDiGraph) = edges(g.g)
 Graphs.vertices(g::CompleteIndexedBiDiGraph) = vertices(g.g)
-Graphs.vertices(g::CompleteIndexedBiDiGraph) = vertices(g.g)
 Graphs.is_bipartite(g::CompleteIndexedBiDiGraph) = is_bipartite(g.g)
 Graphs.LinAlg.adjacency_matrix(g::CompleteIndexedBiDiGraph) = adjacency_matrix(g.g)
 
 Graphs.has_vertex(g::CompleteIndexedBiDiGraph, i::Integer) = has_vertex(g.g, i)
-Graphs.has_vertex(g::CompleteIndexedBiDiGraph, i::Integer) = has_vertex(g.g, i)
+Graphs.has_edge(g::CompleteIndexedBiDiGraph, i::Integer, j::Integer) = has_edge(g.g, i, j)
 Graphs.neighbors(g::CompleteIndexedBiDiGraph, i::Integer) = neighbors(g.g, i)
 Graphs.inneighbors(g::CompleteIndexedBiDiGraph, i::Integer) = inneighbors(g.g, i)
 Graphs.outneighbors(g::CompleteIndexedBiDiGraph, i::Integer) = outneighbors(g.g, i)

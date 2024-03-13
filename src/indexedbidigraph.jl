@@ -106,3 +106,29 @@ outedges(g::CompleteIndexedBiDiGraph, i::Integer) = outedges(g.g, i)
 
 get_edge(g::CompleteIndexedBiDiGraph, id::Integer) = get_edge(g.g, id)
 get_edge(g::CompleteIndexedBiDiGraph, src::Integer, dst::Integer) = get_edge(g.g, src, dst)
+
+"""
+    bidirected_with_mappings(g::IndexedGraph) -> (gdir, dir2undir, undir2dir)
+
+Construct a `CompleteIndexedBiDiGraph` `gdir` from an `IndexedGraph` `g` by building two directed edges per every undirected edge in `g`.
+In addition, return two vectors containing mappings from the undirected edges of `g` to the corresponding directed edges of `gdir`.
+
+### OUTPUT
+- `gdir` -- The complete, directed graph
+- `dir2undir` -- A vector of integers mapping the indices of the directed edges of `gdir` to the corresponding undirected edges of `g`
+- `undir2dir` -- A vector of vectors with two integers each mapping the indices of the undirected edges of `g` to the two corresponding directed edges of `gdir`
+
+"""
+function bidirected_with_mappings(g::IndexedGraph{T}) where {T<:Integer}
+    gdir = CompleteIndexedBiDiGraph(g)
+    dir2undir = zeros(T, ne(gdir))
+    undir2dir = [zeros(T, 0) for _ in edges(g)]
+
+    for i in vertices(gdir)
+        for (dir, undir) in zip(inedges(gdir, i), inedges(g,i))
+            dir2undir[idx(dir)] = idx(undir)
+            push!(undir2dir[idx(undir)], idx(dir))
+        end
+    end
+    return gdir, dir2undir, undir2dir
+end

@@ -61,36 +61,49 @@ end
     for i in 1:20; A[i,i] = 0; end
     A = A + A'
     dropzeros!(A)
-    g = CompleteIndexedBiDiGraph(IndexedGraph(A))
-    gd = IndexedBiDiGraph(A)
+    g = IndexedGraph(A)
+    gd, dir2undir, undir2dir = bidirected_with_mappings(g)
+    gbd = IndexedBiDiGraph(A)
+
+    @testset "mappings" begin
+        eu = edges(g) |> collect    # undirected edges
+        ed = edges(gd) |> collect   # directed edges
+        @test all( let
+            e = eu[dir2undir[idd]]
+            src(e) == min(i,j) && dst(e) == max(i,j)
+        end for (i,j,idd) in ed
+        )
+        @test all( let
+            es = ed[undir2dir[idu]]
+            src(es[1]) == dst(es[2]) && src(es[2]) == dst(es[1])
+        end for (i,j,idu) in eu
+        )
+    end
 
     @testset "show" begin
         buf = IOBuffer()
-        show(buf, g)
-        @test String(take!(buf)) == "{20, $(ne(g))} CompleteIndexedBiDiGraph{$(Int)}\n"
+        show(buf, gd)
+        @test String(take!(buf)) == "{20, $(ne(gd))} CompleteIndexedBiDiGraph{$(Int)}\n"
     end
 
     @testset "basics" begin
-        @test is_directed(typeof(g)) == is_directed(typeof(gd))
-        @test is_directed(g) == is_directed(gd)
-        @test length(collect(edges(g))) == ne(g) == length(collect(edges(gd))) == ne(gd)
+        @test is_directed(typeof(gbd)) == is_directed(typeof(gd))
+        @test is_directed(gbd) == is_directed(gd)
+        @test length(collect(edges(gbd))) == ne(gbd) == length(collect(edges(gd))) == ne(gd)
         i = 3
-        ine = inedges(g, i); ined = inedges(gd, i)
-        inn = inneighbors(g, i); innd = inneighbors(gd, i)
+        ine = inedges(gbd, i); ined = inedges(gd, i)
+        inn = inneighbors(gbd, i); innd = inneighbors(gd, i)
         @test all(src(e) == j == src(ed) == jd for (e,j,ed,jd) in zip(ine, inn, ined, innd))
         @test all(dst(e) == i == dst(ed) for (e, ed) in zip(ine, ined))
     end
 
     @testset "edge indexing" begin
-        @test all( e == get_edge(g, src(e), dst(e)) for e in edges(g) )
-        @test all( e == get_edge(g, idx(e)) for e in edges(g) )
-
-        passed = falses(ne(g))
-        for (i,e) in enumerate(edges(g))
-            id = idx(get_edge(g, src(e), dst(e)))
-            ee = get_edge(g, id)
-            passed[i] = ee == e
-        end
-        @test all(passed)
+        @test all( e == get_edge(gbd, src(e), dst(e)) for e in edges(gd) )
+        @test all( e == get_edge(gbd, idx(e)) for e in edges(gd) )
+        @test all(let
+            id = idx(get_edge(gd, src(e), dst(e)))
+            ee = get_edge(gd, id)
+            ee == e
+        end for (i,e) in enumerate(edges(gd)))
     end
 end

@@ -106,4 +106,18 @@ end
             ee == e
         end for (i,e) in enumerate(edges(gd)))
     end
+
+    @testset "Graphs.jl methods" begin
+        @test edgetype(gd) == edgetype(gbd)
+        @test is_bipartite(gd) == is_bipartite(gbd)
+        @test adjacency_matrix(gd) == adjacency_matrix(gbd)
+        @test all(let
+            has_vertex(gd, i) == has_vertex(gbd, i) &&
+            neighbors(gd, i) == neighbors(gbd, i) &&
+            outneighbors(gd, i) == outneighbors(gbd, i) &&
+            degree(gd, i) == degree(gbd, i) &&
+            collect(outedges(gd, i)) == collect(outedges(gbd, i))
+        end for i in 1:20)
+        @test all(has_edge(gd, i, j) == has_edge(gbd, i, j) for i in 1:20 for j in 1:20)
+    end
 end

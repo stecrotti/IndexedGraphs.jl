@@ -58,3 +58,5 @@ struct NullNumber <: Number; end
 Base.zero(::NullNumber) = false
 Base.zero(::Type{NullNumber}) = false
 Base.iszero(::NullNumber) = false
+Base.promote_rule(::Type{T}, ::Type{NullNumber}) where {T<:Integer} = T
+Base.convert(::Type{T}, ::NullNumber) where {T<:Integer} = one(T)

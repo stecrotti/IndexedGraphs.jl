@@ -60,7 +60,7 @@ function adjacency_matrix(g::IndexedBiDiGraph, T::DataType=Int)
 end
 
 """
-    CompleteIndexedBiDiGraph{T<:Integer} <: AbstractIndexedDiGraph{T}       
+    SymmetricIndexedBiDiGraph{T<:Integer} <: AbstractIndexedDiGraph{T}       
 
 A wrapper type over a `IndexedBiDiGraph` representing a sparse directed graph where between each pair of vertices `i,j` there exist either no edge or both directed edges `i=>j` and `j=>i`.
 
@@ -68,49 +68,49 @@ A wrapper type over a `IndexedBiDiGraph` representing a sparse directed graph wh
 
 - `g` -- the underlying digraph.
 """
-struct CompleteIndexedBiDiGraph{T<:Integer} <: AbstractIndexedDiGraph{T}
+struct SymmetricIndexedBiDiGraph{T<:Integer} <: AbstractIndexedDiGraph{T}
     g :: IndexedBiDiGraph{T}
 
     @doc """
-        CompleteIndexedBiDiGraph(g::IndexedGraph)
+        SymmetricIndexedBiDiGraph(g::IndexedGraph)
 
-    Construct a `CompleteIndexedBiDiGraph` from an `IndexedGraph` `g` by building two directed edges per every undirected edge in `g`
+    Construct a `SymmetricIndexedBiDiGraph` from an `IndexedGraph` `g` by building two directed edges per every undirected edge in `g`
     """
-    function CompleteIndexedBiDiGraph(g::IndexedGraph{T}) where {T<:Integer}
+    function SymmetricIndexedBiDiGraph(g::IndexedGraph{T}) where {T<:Integer}
         gd = IndexedBiDiGraph(adjacency_matrix(g))
         new{T}(gd)
     end
 end
 
-function Base.show(io::IO, g::CompleteIndexedBiDiGraph{T}) where T
-    println(io, "{$(nv(g)), $(ne(g))} CompleteIndexedBiDiGraph{$T}")
+function Base.show(io::IO, g::SymmetricIndexedBiDiGraph{T}) where T
+    println(io, "{$(nv(g)), $(ne(g))} SymmetricIndexedBiDiGraph{$T}")
 end
 
-Graphs.edgetype(g::CompleteIndexedBiDiGraph) = edgetype(g.g)
-Graphs.ne(g::CompleteIndexedBiDiGraph) = ne(g.g)
-Graphs.nv(g::CompleteIndexedBiDiGraph) = nv(g.g)
-Graphs.edges(g::CompleteIndexedBiDiGraph) = edges(g.g)
-Graphs.vertices(g::CompleteIndexedBiDiGraph) = vertices(g.g)
-Graphs.is_bipartite(g::CompleteIndexedBiDiGraph) = is_bipartite(g.g)
-Graphs.LinAlg.adjacency_matrix(g::CompleteIndexedBiDiGraph) = adjacency_matrix(g.g)
+Graphs.edgetype(g::SymmetricIndexedBiDiGraph) = edgetype(g.g)
+Graphs.ne(g::SymmetricIndexedBiDiGraph) = ne(g.g)
+Graphs.nv(g::SymmetricIndexedBiDiGraph) = nv(g.g)
+Graphs.edges(g::SymmetricIndexedBiDiGraph) = edges(g.g)
+Graphs.vertices(g::SymmetricIndexedBiDiGraph) = vertices(g.g)
+Graphs.is_bipartite(g::SymmetricIndexedBiDiGraph) = is_bipartite(g.g)
+Graphs.LinAlg.adjacency_matrix(g::SymmetricIndexedBiDiGraph) = adjacency_matrix(g.g)
 
-Graphs.has_vertex(g::CompleteIndexedBiDiGraph, i::Integer) = has_vertex(g.g, i)
-Graphs.has_edge(g::CompleteIndexedBiDiGraph, i::Integer, j::Integer) = has_edge(g.g, i, j)
-Graphs.neighbors(g::CompleteIndexedBiDiGraph, i::Integer) = neighbors(g.g, i)
-Graphs.inneighbors(g::CompleteIndexedBiDiGraph, i::Integer) = inneighbors(g.g, i)
-Graphs.outneighbors(g::CompleteIndexedBiDiGraph, i::Integer) = outneighbors(g.g, i)
-Graphs.degree(g::CompleteIndexedBiDiGraph, i::Integer) = degree(g.g, i)
+Graphs.has_vertex(g::SymmetricIndexedBiDiGraph, i::Integer) = has_vertex(g.g, i)
+Graphs.has_edge(g::SymmetricIndexedBiDiGraph, i::Integer, j::Integer) = has_edge(g.g, i, j)
+Graphs.neighbors(g::SymmetricIndexedBiDiGraph, i::Integer) = neighbors(g.g, i)
+Graphs.inneighbors(g::SymmetricIndexedBiDiGraph, i::Integer) = inneighbors(g.g, i)
+Graphs.outneighbors(g::SymmetricIndexedBiDiGraph, i::Integer) = outneighbors(g.g, i)
+Graphs.degree(g::SymmetricIndexedBiDiGraph, i::Integer) = degree(g.g, i)
 
-inedges(g::CompleteIndexedBiDiGraph, i::Integer) = inedges(g.g, i)
-outedges(g::CompleteIndexedBiDiGraph, i::Integer) = outedges(g.g, i)
+inedges(g::SymmetricIndexedBiDiGraph, i::Integer) = inedges(g.g, i)
+outedges(g::SymmetricIndexedBiDiGraph, i::Integer) = outedges(g.g, i)
 
-get_edge(g::CompleteIndexedBiDiGraph, id::Integer) = get_edge(g.g, id)
-get_edge(g::CompleteIndexedBiDiGraph, src::Integer, dst::Integer) = get_edge(g.g, src, dst)
+get_edge(g::SymmetricIndexedBiDiGraph, id::Integer) = get_edge(g.g, id)
+get_edge(g::SymmetricIndexedBiDiGraph, src::Integer, dst::Integer) = get_edge(g.g, src, dst)
 
 """
     bidirected_with_mappings(g::IndexedGraph) -> (gdir, dir2undir, undir2dir)
 
-Construct a `CompleteIndexedBiDiGraph` `gdir` from an `IndexedGraph` `g` by building two directed edges per every undirected edge in `g`.
+Construct a `SymmetricIndexedBiDiGraph` `gdir` from an `IndexedGraph` `g` by building two directed edges per every undirected edge in `g`.
 In addition, return two vectors containing mappings from the undirected edges of `g` to the corresponding directed edges of `gdir`.
 
 ### OUTPUT
@@ -120,7 +120,7 @@ In addition, return two vectors containing mappings from the undirected edges of
 
 """
 function bidirected_with_mappings(g::IndexedGraph{T}) where {T<:Integer}
-    gdir = CompleteIndexedBiDiGraph(g)
+    gdir = SymmetricIndexedBiDiGraph(g)
     dir2undir = zeros(T, ne(gdir))
     undir2dir = [zeros(T, 0) for _ in edges(g)]
 

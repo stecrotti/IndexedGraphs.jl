@@ -55,7 +55,7 @@ g = IndexedBiDiGraph(A)
     end
 end
 
-@testset "complete BiDirected graph" begin
+@testset "SymmetricBiDirected graph" begin
 
     A = sprand(Bool, 20, 20, 0.5)
     for i in 1:20; A[i,i] = 0; end
@@ -83,7 +83,7 @@ end
     @testset "show" begin
         buf = IOBuffer()
         show(buf, gd)
-        @test String(take!(buf)) == "{20, $(ne(gd))} CompleteIndexedBiDiGraph{$(Int)}\n"
+        @test String(take!(buf)) == "{20, $(ne(gd))} SymmetricIndexedBiDiGraph{$(Int)}\n"
     end
 
     @testset "basics" begin

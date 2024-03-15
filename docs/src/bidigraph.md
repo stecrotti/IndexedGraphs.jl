@@ -7,12 +7,12 @@ For a lighter data structure check out [IndexedDiGraph](@ref).
 
 ```@docs
 IndexedBiDiGraph
-CompleteIndexedBiDiGraph
+SymmetricIndexedBiDiGraph
 ```
 
 ```@docs
 IndexedBiDiGraph(A::AbstractMatrix)
-CompleteIndexedBiDiGraph(g::IndexedGraph)
+SymmetricIndexedBiDiGraph(g::IndexedGraph)
 ```
 Example:
 ```@example

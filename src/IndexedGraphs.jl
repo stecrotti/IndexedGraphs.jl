@@ -31,7 +31,7 @@ export
     IndexedGraph, get_edge,
     # directed graphs
     AbstractIndexedDiGraph, IndexedDiGraph, IndexedBiDiGraph,
-    CompleteIndexedBiDiGraph, bidirected_with_mappings,
+    SymmetricIndexedBiDiGraph, bidirected_with_mappings,
     # bipartite graphs
     BipartiteIndexedGraph, Left, Right, LeftorRight, BipartiteGraphVertex,
     nv_left, nv_right, vertex, linearindex, vertices_left, vertices_right,

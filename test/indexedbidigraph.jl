@@ -7,6 +7,10 @@ g = IndexedBiDiGraph(A)
 
 @testset "BiDirected graph" begin
 
+    @testset "issymmetric" begin
+        @test issymmetric(g) == issymmetric(adjacency_matrix(g))
+    end
+
     @testset "show" begin
         buf = IOBuffer()
         show(buf, g)

@@ -53,4 +53,25 @@ g = IndexedBiDiGraph(A)
         ig = IndexedBiDiGraph(sg)
         @test adjacency_matrix(sg) == adjacency_matrix(ig)
     end
+
+    @testset "construct from IndexedGraph" begin
+        B = A + A'
+        dropzeros!(B)
+        g = IndexedGraph(B)
+        gd, dir2undir, undir2dir = bidirected_with_mappings(g)
+        @test issymmetric(gd)
+    
+        eu = edges(g) |> collect    # undirected edges
+        ed = edges(gd) |> collect   # directed edges
+        @test all( let
+            e = eu[dir2undir[idd]]
+            src(e) == min(i,j) && dst(e) == max(i,j)
+        end for (i,j,idd) in ed
+        )
+        @test all( let
+            es = ed[undir2dir[idu]]
+            src(es[1]) == dst(es[2]) && src(es[2]) == dst(es[1])
+        end for (i,j,idu) in eu
+        )
+    end
 end

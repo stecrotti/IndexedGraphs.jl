@@ -58,3 +58,46 @@ inedges(g::IndexedBiDiGraph, i::Integer) = @inbounds (IndexedEdge{Int}(g.X.rowva
 function adjacency_matrix(g::IndexedBiDiGraph, T::DataType=Int)
     SparseMatrixCSC(g.X.m, g.X.n, g.X.colptr, g.X.rowval, ones(T, nnz(g.X)))
 end
+
+"""
+    issymmetric(g::IndexedBiDiGraph) -> Bool
+
+Test whether a directed graph is symmetric, i.e. for each directed edge `i=>j` there also exists the edge `j=>i`
+"""
+function issymmetric(g::IndexedBiDiGraph)
+    for i in vertices(g)
+        ein = inedges(g, i)
+        eout = outedges(g, i)
+        length(ein) == length(eout) || return false
+        for (ei, eo) in zip(ein, eout)
+            src(ei) == dst(eo) || return false
+        end
+    end
+    return true
+end
+
+"""
+    bidirected_with_mappings(g::IndexedGraph) -> (gdir, dir2undir, undir2dir)
+
+Construct an `IndexedBiDiGraph` `gdir` from an `IndexedGraph` `g` by building two directed edges per every undirected edge in `g`.
+In addition, return two vectors containing mappings from the undirected edges of `g` to the corresponding directed edges of `gdir`.
+
+### OUTPUT
+- `gdir` -- The directed graph
+- `dir2undir` -- A vector of integers mapping the indices of the directed edges of `gdir` to the corresponding undirected edges of `g`
+- `undir2dir` -- A vector of vectors with two integers each mapping the indices of the undirected edges of `g` to the two corresponding directed edges of `gdir`
+
+"""
+function bidirected_with_mappings(g::IndexedGraph{T}) where {T<:Integer}
+    gdir = IndexedBiDiGraph(g.A)
+    dir2undir = zeros(T, ne(gdir))
+    undir2dir = [zeros(T, 0) for _ in edges(g)]
+
+    for i in vertices(gdir)
+        for (dir, undir) in zip(inedges(gdir, i), inedges(g,i))
+            dir2undir[idx(dir)] = idx(undir)
+            push!(undir2dir[idx(undir)], idx(dir))
+        end
+    end
+    return gdir, dir2undir, undir2dir
+end

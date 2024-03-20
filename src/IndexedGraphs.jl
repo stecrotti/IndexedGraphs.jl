@@ -34,8 +34,9 @@ export
     # bipartite graphs
     BipartiteIndexedGraph, Left, Right, LeftorRight, BipartiteGraphVertex,
     nv_left, nv_right, vertex, linearindex, vertices_left, vertices_right,
-    vertex_left, vertex_right,
-    is_directed
+    vertex_left, vertex_right, 
+    is_directed, issymmetric,
+    bidirected_with_mappings
 
 """
     AbstractIndexedEdge{T<:Integer} <: AbstractEdge{T}

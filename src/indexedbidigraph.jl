@@ -55,7 +55,7 @@ Return a lazy iterator to the edges ingoing to node `i` in `g`.
 inedges(g::IndexedBiDiGraph, i::Integer) = @inbounds (IndexedEdge{Int}(g.X.rowval[k], i, g.X.nzval[k]) for k in nzrange(g.X, i))
 
 # Return a copy of the adjacency matrix with elements of type `T`
-function adjacency_matrix(g::IndexedBiDiGraph, T::DataType=Int)
+function Graphs.LinAlg.adjacency_matrix(g::IndexedBiDiGraph, T::DataType=Int)
     SparseMatrixCSC(g.X.m, g.X.n, g.X.colptr, g.X.rowval, ones(T, nnz(g.X)))
 end
 
@@ -64,7 +64,7 @@ end
 
 Test whether a directed graph is symmetric, i.e. for each directed edge `i=>j` there also exists the edge `j=>i`
 """
-function issymmetric(g::IndexedBiDiGraph)
+function LinearAlgebra.issymmetric(g::IndexedBiDiGraph)
     for i in vertices(g)
         ein = inedges(g, i)
         eout = outedges(g, i)

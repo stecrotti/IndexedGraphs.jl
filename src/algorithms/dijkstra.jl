@@ -1,5 +1,5 @@
 ### Override for Graphs' version, copied from https://github.com/JuliaGraphs/Graphs.jl/blob/master/src/shortestpaths/dijkstra.jl with some adjustments
-function dijkstra_shortest_paths(g::AbstractIndexedGraph,
+function Graphs.dijkstra_shortest_paths(g::AbstractIndexedGraph,
     srcs::Vector{U},
     distvec::AbstractVector{T}=ones(Int, ne(g));
     allpaths=false,
@@ -84,12 +84,12 @@ function dijkstra_shortest_paths(g::AbstractIndexedGraph,
     return DijkstraState{T,U}(parents, dists, preds, pathcounts, closest_vertices)
 end
 
-function dijkstra_shortest_paths(g::AbstractIndexedGraph, src::Integer, 
+function Graphs.dijkstra_shortest_paths(g::AbstractIndexedGraph, src::Integer, 
         distvec::AbstractVector=ones(Int, ne(g)); kw...)
     dijkstra_shortest_paths(g, [src;], distvec; kw...)
 end
 
-function dijkstra_shortest_paths(g::AbstractIndexedGraph, src, 
+function Graphs.dijkstra_shortest_paths(g::AbstractIndexedGraph, src, 
         distmx::AbstractMatrix; kw...)
     Wt = convert(SparseMatrixCSC, transpose(distmx))
     distvec = nonzeros(Wt)

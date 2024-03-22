@@ -37,7 +37,7 @@ function get_edge(g::AbstractIndexedDiGraph, id::Integer)
 end
 
 # Returns sparse adj matrix. Elements default to Int (to match Graphs)
-function adjacency_matrix(g::AbstractIndexedDiGraph, T::DataType=Int)
+function Graphs.LinAlg.adjacency_matrix(g::AbstractIndexedDiGraph, T::DataType=Int)
     M = sparse(transpose(g.A))
     SparseMatrixCSC(M.m, M.n, M.colptr, M.rowval, ones(T, nnz(M)))
 end

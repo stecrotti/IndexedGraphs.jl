@@ -26,6 +26,6 @@ vertices(g::AbstractIndexedGraph) = 1:size(g.A, 2)
 outneighbors(g::AbstractIndexedGraph, i::Integer) = @inbounds @view g.A.rowval[nzrange(g.A,i)]
 
 # Returns sparse adj matrix. Elements default to Int (to match Graphs)
-function adjacency_matrix(g::AbstractIndexedGraph, T::DataType=Int)
+function Graphs.LinAlg.adjacency_matrix(g::AbstractIndexedGraph, T::DataType=Int)
     SparseMatrixCSC(g.A.m, g.A.n, g.A.colptr, g.A.rowval, ones(T, nnz(g.A)))
 end

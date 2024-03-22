@@ -1,28 +1,21 @@
 module IndexedGraphs
 
-import SparseArrays:
-    sparse, SparseMatrixCSC, nnz, nzrange, rowvals, nonzeros, spzeros
+using SparseArrays: sparse, SparseMatrixCSC, nnz, nzrange, rowvals, nonzeros, spzeros
 
-import Base:
-    show, ==, iterate
+using Reexport: @reexport
 
-using Reexport
 @reexport import Graphs:
-    AbstractGraph, AbstractEdge, src, dst, edgetype, has_vertex, has_edge, ne, nv,
-    edges, vertices, neighbors, inneighbors, outneighbors, is_directed, is_bipartite,
-    degree,
-    DijkstraState, dijkstra_shortest_paths, 
-    SimpleGraph, SimpleDiGraph, AbstractSimpleGraph
-using Graphs
+    src, dst, edgetype, has_vertex, has_edge, ne, nv,
+    edges, vertices, neighbors, inneighbors, outneighbors, is_directed, is_bipartite
 
-import Graphs.LinAlg:
-    adjacency_matrix
+using Graphs: Graphs, AbstractGraph, SimpleGraph, AbstractSimpleGraph, AbstractEdge, 
+    bipartite_map,  DijkstraState, dijkstra_shortest_paths
+    
+using Graphs.LinAlg
 
-import LinearAlgebra:
-    issymmetric
+using LinearAlgebra: LinearAlgebra, issymmetric
 
-import TrackingHeaps:
-    TrackingHeap, pop!, NoTrainingWheels, MinHeapOrder
+using TrackingHeaps: TrackingHeap, pop!, NoTrainingWheels, MinHeapOrder
 
 export
     idx, ==, iterate,

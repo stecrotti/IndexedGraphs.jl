@@ -13,17 +13,17 @@ end
 
 Base.eltype(::AbstractIndexedGraph{T}) where T = T
 
-edgetype(::AbstractIndexedGraph{T}) where T = IndexedEdge{T}
+Graphs.edgetype(::AbstractIndexedGraph{T}) where T = IndexedEdge{T}
 
-has_vertex(g::AbstractIndexedGraph, i::Integer) = i ≤ size(g.A, 2)
+Graphs.has_vertex(g::AbstractIndexedGraph, i::Integer) = i ≤ size(g.A, 2)
 
-has_edge(g::AbstractIndexedGraph, i::Integer, j::Integer) = g.A[i,j] != 0
+Graphs.has_edge(g::AbstractIndexedGraph, i::Integer, j::Integer) = g.A[i,j] != 0
 
-nv(g::AbstractIndexedGraph) = size(g.A, 2)
+Graphs.nv(g::AbstractIndexedGraph) = size(g.A, 2)
 
-vertices(g::AbstractIndexedGraph) = 1:size(g.A, 2)
+Graphs.vertices(g::AbstractIndexedGraph) = 1:size(g.A, 2)
 
-outneighbors(g::AbstractIndexedGraph, i::Integer) = @inbounds @view g.A.rowval[nzrange(g.A,i)]
+Graphs.outneighbors(g::AbstractIndexedGraph, i::Integer) = @inbounds @view g.A.rowval[nzrange(g.A,i)]
 
 # Returns sparse adj matrix. Elements default to Int (to match Graphs)
 function Graphs.LinAlg.adjacency_matrix(g::AbstractIndexedGraph, T::DataType=Int)

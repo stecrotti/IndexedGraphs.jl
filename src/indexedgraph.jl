@@ -55,7 +55,7 @@ Construct an `IndexedGraph` from undirected `SimpleGraph` (Graphs.jl).
 """
 IndexedGraph(sg::SimpleGraph) = IndexedGraph(adjacency_matrix(sg))
 
-function edges(g::IndexedGraph) 
+function Graphs.edges(g::IndexedGraph) 
     (IndexedEdge{Int}(extrema((i, g.A.rowval[k]))..., g.A.nzval[k])
         for i=1:size(g.A,2) for k=nzrange(g.A,i) if i > g.A.rowval[k])
 end
@@ -64,15 +64,13 @@ function Base.show(io::IO, g::IndexedGraph{T}) where T
     println(io, "{$(nv(g)), $(ne(g))} undirected IndexedGraph{$T}")
 end
 
-ne(g::IndexedGraph) = Int( nnz(g.A) / 2 ) 
+Graphs.ne(g::IndexedGraph) = Int( nnz(g.A) / 2 ) 
 
-neighbors(g::IndexedGraph, i::Integer) = outneighbors(g, i)
+Graphs.neighbors(g::IndexedGraph, i::Integer) = outneighbors(g, i)
+Graphs.inneighbors(g::IndexedGraph, i::Integer) = outneighbors(g, i)
 
-inneighbors(g::IndexedGraph, i::Integer) = outneighbors(g, i)
-
-is_directed(g::IndexedGraph) = false
-
-is_directed(::Type{IndexedGraph{T}}) where T = false
+Graphs.is_directed(g::IndexedGraph) = false
+Graphs.is_directed(::Type{IndexedGraph{T}}) where T = false
 
 Base.zero(g::IndexedGraph) = IndexedGraph(zero(g.A))
 
@@ -84,7 +82,7 @@ Return a lazy iterators to the edges incident to `i`.
 By default unordered edges sort source and destination nodes in increasing order.
 See [`outedges`](@ref outedges(g::IndexedGraph, i::Integer)) and [`inedges`](@ref inedges(g::IndexedGraph, i::Integer)) if you need otherwise.
 """
-function edges(g::IndexedGraph, i::Integer)
+function Graphs.edges(g::IndexedGraph, i::Integer)
     (IndexedEdge(extrema((i, g.A.rowval[k]))..., g.A.nzval[k]) 
         for k in nzrange(g.A, i))
 end

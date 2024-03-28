@@ -43,7 +43,7 @@ function Base.show(io::IO, g::IndexedBiDiGraph{T}) where T
     println(io, "{$(nv(g)), $(ne(g))} IndexedBiDiGraph{$T}")
 end
 
-inneighbors(g::IndexedBiDiGraph, i::Integer) = @inbounds @view g.X.rowval[nzrange(g.X,i)]
+Graphs.inneighbors(g::IndexedBiDiGraph, i::Integer) = @inbounds @view g.X.rowval[nzrange(g.X,i)]
 
 Base.zero(g::IndexedBiDiGraph) = IndexedBiDiGraph(zero(g.A))
 

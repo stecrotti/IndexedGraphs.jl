@@ -2,13 +2,9 @@ module IndexedGraphs
 
 using SparseArrays: sparse, SparseMatrixCSC, nnz, nzrange, rowvals, nonzeros, spzeros
 
-using Reexport: @reexport
-
-@reexport import Graphs:
-    src, dst, edgetype, has_vertex, has_edge, ne, nv,
-    edges, vertices, neighbors, inneighbors, outneighbors, is_directed, is_bipartite
-
 using Graphs: Graphs, AbstractGraph, SimpleGraph, AbstractSimpleGraph, AbstractEdge, 
+    src, dst, edgetype, has_vertex, has_edge, ne, nv,
+    edges, vertices, neighbors, inneighbors, outneighbors, is_directed, is_bipartite,
     bipartite_map,  DijkstraState, dijkstra_shortest_paths
     
 using Graphs.LinAlg
@@ -18,8 +14,13 @@ using LinearAlgebra: LinearAlgebra, issymmetric
 using TrackingHeaps: TrackingHeap, pop!, NoTrainingWheels, MinHeapOrder
 
 export
-    idx, ==, iterate,
-    AbstractIndexedGraph, inedges, outedges, adjacency_matrix,
+    # Graphs.jl
+    src, dst, edgetype, has_vertex, has_edge, ne, nv, adjacency_matrix,
+    edges, vertices, neighbors, inneighbors, outneighbors, is_directed, is_bipartite,
+    # Base
+    ==, iterate,
+    # IndexedGraphs
+    AbstractIndexedGraph, inedges, outedges, idx,
     # undirected graphs
     IndexedGraph, get_edge,
     # directed graphs
@@ -52,8 +53,8 @@ struct IndexedEdge{T<:Integer} <: AbstractIndexedEdge{T}
 	idx::T
 end
 
-src(e::IndexedEdge) = e.src
-dst(e::IndexedEdge) = e.dst
+Graphs.src(e::IndexedEdge) = e.src
+Graphs.dst(e::IndexedEdge) = e.dst
 idx(e::AbstractIndexedEdge) = e.idx
 
 function Base.:(==)(e1::T, e2::T) where {T<:AbstractIndexedEdge}
@@ -70,9 +71,10 @@ Base.iterate(e::IndexedEdge, args...) = iterate((e.src, e.dst, e.idx), args...)
 include("utils.jl")
 include("abstractindexedgraph.jl")
 include("indexedgraph.jl")
+include("abstractindexeddigraph.jl")
 include("indexeddigraph.jl")
 include("indexedbidigraph.jl")
-include("bipartite.jl")
+include("bipartiteindexedgraph.jl")
 
 include("algorithms/dijkstra.jl")
 

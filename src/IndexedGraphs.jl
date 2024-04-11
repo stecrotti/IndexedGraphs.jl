@@ -6,6 +6,7 @@ using Graphs: Graphs, AbstractGraph, SimpleGraph, AbstractSimpleGraph, AbstractE
     src, dst, edgetype, has_vertex, has_edge, ne, nv,
     edges, vertices, neighbors, inneighbors, outneighbors, is_directed, is_bipartite,
     bipartite_map,  DijkstraState, dijkstra_shortest_paths
+import Graphs: degree
     
 using Graphs.LinAlg
 

@@ -15,7 +15,7 @@ using TrackingHeaps: TrackingHeap, pop!, NoTrainingWheels, MinHeapOrder
 
 export
     # Graphs.jl
-    src, dst, edgetype, has_vertex, has_edge, ne, nv, adjacency_matrix,
+    src, dst, edgetype, has_vertex, has_edge, ne, nv, adjacency_matrix, degree,
     edges, vertices, neighbors, inneighbors, outneighbors, is_directed, is_bipartite,
     # Base
     ==, iterate,

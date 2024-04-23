@@ -27,6 +27,19 @@ using Graphs, IndexedGraphs, SparseArrays
         @test adjacency_matrix(gb) == adjacency_matrix(g)
     end
 
+    @testset "degree" begin
+        @test all(1:nv_left(gb)) do iL
+            v = vertex(iL, Left)
+            i = linearindex(gb, v)
+            degree(gb, v) == degree(g, i)
+        end
+        @test all(1:nv_right(gb)) do iR
+            v = vertex(iR, Right)
+            i = linearindex(gb, v)
+            degree(gb, v) == degree(g, i)
+        end
+    end
+
     @testset "left and right" begin
         vl = [linearindex(gb, i, Left) for i in 1:nv_left(gb)]
         vr = [linearindex(gb, i, Right) for i in 1:nv_right(gb)]

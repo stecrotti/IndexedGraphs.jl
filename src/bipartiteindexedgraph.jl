@@ -168,7 +168,7 @@ Return a lazy iterator to the vertices in the left block
 vertices_left(g::BipartiteIndexedGraph) = 1:nv_left(g)
 
 """
-    vertices right(g::BipartiteIndexedGraph)
+    vertices_right(g::BipartiteIndexedGraph)
 
 Return a lazy iterator to the vertices in the right block
 """
@@ -239,6 +239,13 @@ Graphs.outneighbors(g::BipartiteIndexedGraph, v::BipartiteGraphVertex) = inneigh
 Return a lazy iterator to the neighbors of variable `i` specified by its linear index. 
 """
 Graphs.outneighbors(g::BipartiteIndexedGraph, i::Integer) = inneighbors(g, i)
+
+"""
+    degree(g::BipartiteIndexedGraph, v::BipartiteGraphVertex)
+
+Return the degree of variable `v` specified by a [`BipartiteGraphVertex`](@ref). 
+"""
+Graphs.degree(g::BipartiteIndexedGraph, v::BipartiteGraphVertex) = length(inneighbors(g, v))
 
 """ 
     inedges(g::BipartiteIndexedGraph, v::BipartiteGraphVertex{<:LeftorRight})

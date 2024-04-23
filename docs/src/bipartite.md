@@ -39,6 +39,7 @@ outedges(g::BipartiteIndexedGraph, l::BipartiteGraphVertex{Left})
 ## Overrides from Graphs.jl
 
 ```@docs
+degree(g::BipartiteIndexedGraph, v::BipartiteGraphVertex)
 inneighbors(g::BipartiteIndexedGraph, i::Integer)
 inneighbors(g::BipartiteIndexedGraph, l::BipartiteGraphVertex{Left})
 outneighbors(g::BipartiteIndexedGraph, i::Integer)

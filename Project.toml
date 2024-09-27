@@ -21,4 +21,4 @@ Graphs = "86223c79-3864-5bf0-83f7-82e725a168b6"
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 
 [targets]
-test = ["Test", "Graphs", "Random"]
+test = ["Test", "Graphs"]

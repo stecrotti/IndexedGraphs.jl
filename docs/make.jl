@@ -1,4 +1,4 @@
-using Documenter, IndexedGraphs, Graphs
+using Documenter, IndexedGraphs, Graphs, Random
 
 makedocs(sitename="IndexedGraphs Documentation", 
     # format = Documenter.HTML(prettyurls = false),

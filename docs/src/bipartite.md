@@ -46,3 +46,11 @@ outneighbors(g::BipartiteIndexedGraph, i::Integer)
 outneighbors(g::BipartiteIndexedGraph, v::BipartiteGraphVertex)
 adjacency_matrix(g::BipartiteIndexedGraph, T::DataType=Int)
 ```
+
+## Generators
+```@docs
+rand_bipartite_graph([rng::AbstractRNG], nleft::Integer, nright::Integer, ned::Integer)
+rand_bipartite_graph([rng::AbstractRNG], nleft::Integer, nright::Integer, p::Real)
+rand_regular_bipartite_graph([rng::AbstractRNG], nleft::Integer, nright::Integer, k::Integer)
+rand_bipartite_tree([rng::AbstractRNG], n::Integer)
+```

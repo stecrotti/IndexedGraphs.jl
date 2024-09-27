@@ -349,7 +349,7 @@ end
 
 Create a bipartite graph with `nleft` nodes in the left block, `nright` nodes in the right block and edges taken independently with probability `p`.
 """
-function rand_bipartite_graph(rng::AbstractRNG, nright::Integer, nleft::Integer, p::Real)
+function rand_bipartite_graph(rng::AbstractRNG, nleft::Integer, nright::Integer, p::Real)
     nright > 0 || throw(ArgumentError("Number of right nodes must be positive, got $nright"))
     nleft > 0 || throw(ArgumentError("Number of left nodes must be positive, got $nleft"))
     0 ≤ p ≤ 1 || throw(ArgumentError("Probability must be in [0,1], got $ned"))
@@ -366,7 +366,7 @@ function rand_bipartite_graph(rng::AbstractRNG, nright::Integer, nleft::Integer,
     A = sparse(I, J, K, nleft, nright)
     return BipartiteIndexedGraph(A)
 end
-function rand_bipartite_graph(nright::Integer, nleft::Integer, p::Real)
+function rand_bipartite_graph(nleft::Integer, nright::Integer, p::Real)
     rand_bipartite_graph(default_rng(), nleft, nright, p)
 end
 
@@ -375,7 +375,7 @@ end
 
 Create a bipartite graph with `nleft` nodes in the left block, `nright` nodes in the right block, where all left nodes have degree `k`.
 """
-function rand_regular_bipartite_graph(rng::AbstractRNG, nright::Integer, nleft::Integer, 
+function rand_regular_bipartite_graph(rng::AbstractRNG, nleft::Integer, nright::Integer, 
         k::Integer)
     nright > 0 || throw(ArgumentError("Number of right nodes must be positive, got $nright"))
     nleft > 0 || throw(ArgumentError("Number of left nodes must be positive, got $nleft"))
@@ -388,7 +388,7 @@ function rand_regular_bipartite_graph(rng::AbstractRNG, nright::Integer, nleft::
     A = sparse(I, J, K, nleft, nright)
     return BipartiteIndexedGraph(A)
 end
-function rand_regular_bipartite_graph(nright::Integer, nleft::Integer, k::Integer)
+function rand_regular_bipartite_graph(nleft::Integer, nright::Integer, k::Integer)
     rand_regular_bipartite_graph(default_rng(), nleft, nright, k)
 end
 

@@ -5,12 +5,17 @@ using SparseArrays: sparse, SparseMatrixCSC, nnz, nzrange, rowvals, nonzeros, sp
 using Graphs: Graphs, AbstractGraph, SimpleGraph, AbstractSimpleGraph, AbstractEdge, 
     src, dst, edgetype, has_vertex, has_edge, ne, nv,
     edges, vertices, neighbors, inneighbors, outneighbors, is_directed, is_bipartite,
-    bipartite_map,  DijkstraState, dijkstra_shortest_paths
+    bipartite_map,  DijkstraState, dijkstra_shortest_paths,
+    prufer_decode
 import Graphs: degree
     
 using Graphs.LinAlg
 
 using LinearAlgebra: LinearAlgebra, issymmetric
+
+using Random: AbstractRNG, default_rng
+
+using StatsBase: sample
 
 using TrackingHeaps: TrackingHeap, pop!, NoTrainingWheels, MinHeapOrder
 
@@ -31,7 +36,8 @@ export
     nv_left, nv_right, vertex, linearindex, vertices_left, vertices_right,
     vertex_left, vertex_right, 
     is_directed, issymmetric,
-    bidirected_with_mappings
+    bidirected_with_mappings,
+    rand_bipartite_graph, rand_regular_bipartite_graph, rand_bipartite_tree
 
 """
     AbstractIndexedEdge{T<:Integer} <: AbstractEdge{T}

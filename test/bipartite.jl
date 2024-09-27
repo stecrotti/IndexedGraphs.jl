@@ -1,4 +1,4 @@
-using Graphs, IndexedGraphs, SparseArrays
+using Graphs, IndexedGraphs, SparseArrays, Random
 
 @testset "bipartite graph" begin
     nl = 15
@@ -63,5 +63,43 @@ using Graphs, IndexedGraphs, SparseArrays
         d = dijkstra_shortest_paths(g, sources, distvec)
         db = dijkstra_shortest_paths(gb, sources, distvec)
         @test all(getproperty(d, p) == getproperty(db, p) for p in fieldnames(typeof(d)))
+    end
+
+    @testset "bipartite generators" begin
+        rng = MersenneTwister(0)
+        ngraphs = 20
+        nrights = rand(rng, 5:50, ngraphs)
+        nlefts = rand(rng, 5:50, ngraphs)
+        es = [rand(rng, 1:n*m) for (n, m) in zip(nrights, nlefts)]
+        
+        @testset "Random bipartite graph - fixed # edges" begin
+            @test all(zip(nrights, nlefts, es)) do (n, m, e)
+                g = rand_bipartite_graph(rng, m, n, e)
+                nv_right(g) == n && nv_left(g) == m && ne(g) == e
+            end
+        end
+        
+        @testset "Random bipartite graph - prob of edges" begin
+            p = 0.1
+            @test all(zip(nrights, nlefts)) do (n, m)
+                g = rand_bipartite_graph(rng, n, m, p)
+                nv_right(g) == n && nv_left(g) == m
+            end
+        end
+        
+        @testset "Random regular bipartite graph" begin
+            k = 4
+            @test all(zip(nrights, nlefts)) do (n, m)
+                g = rand_regular_bipartite_graph(rng, n, m, k)
+                nv_right(g) == n && nv_left(g) == m && ne(g) == m * k
+            end
+        end
+        
+        @testset "Random bipartite tree" begin
+            @test all(nrights) do n
+                g = rand_bipartite_tree(rng, n)
+                nv(g) == n && !is_cyclic(g)
+            end
+        end
     end
 end

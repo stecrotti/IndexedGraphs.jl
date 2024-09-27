@@ -1,7 +1,7 @@
 name = "IndexedGraphs"
 uuid = "8a731c18-cfb7-4915-927e-cc26b56b67cd"
 authors = ["Stefano Crotti <stefano.crotti@polito.it>", "Alfredo Braunstein <alfredo.braunstein@polito.it>"]
-version = "0.6"
+version = "0.6.1"
 
 [deps]
 Graphs = "86223c79-3864-5bf0-83f7-82e725a168b6"
@@ -13,7 +13,7 @@ TrackingHeaps = "d94bfb22-46ad-56c3-87d0-f6c298cb800e"
 
 [compat]
 Graphs = "1.4"
-StatsBase = "0.33"
+StatsBase = "0.33, 0.34"
 TrackingHeaps = "0.1"
 julia = "1"
 

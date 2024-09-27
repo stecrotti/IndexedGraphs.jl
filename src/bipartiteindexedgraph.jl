@@ -310,3 +310,95 @@ function Graphs.adjacency_matrix(g::BipartiteIndexedGraph, T::DataType=Int)
     return [ spzeros(T, m, m)  A               ;
              A'                spzeros(T, n, n) ]
 end
+
+
+##### GENERATORS
+
+"""
+    rand_bipartite_graph([rng=default_rng()], nleft, nright, ned)
+
+Create a bipartite graph with `nleft` nodes in the left block, `nright` nodes in the right block and `ned` edges taken uniformly at random.
+"""
+function rand_bipartite_graph(rng::AbstractRNG, nleft::Integer, nright::Integer, ned::Integer)
+    nleft > 0 || throw(ArgumentError("Number of variable nodes must be positive, got $nleft"))
+    nright > 0 || throw(ArgumentError("Number of left nodes must be positive, got $nright"))
+    ned > 0 || throw(ArgumentError("Number of edges must be positive, got $ned"))
+    nedmax = nleft * nright
+    ned ≤ nedmax || throw(ArgumentError("Maximum number of edges is $nleft*$nright=$nedmax, got $ned"))
+
+    I = zeros(Int, ned)
+    J = zeros(Int, ned)
+    K = ones(Int, ned)
+    n = 1
+    while n ≤ ned
+        I[n] = rand(rng, 1:nleft)
+        J[n] = rand(rng, 1:nright)
+        if !any((i,j) == (I[n], J[n]) for (i,j) in Iterators.take(zip(I,J), n-1))
+            n += 1
+        end
+    end
+    A = sparse(I, J, K, nleft, nright)
+    return BipartiteIndexedGraph(A)
+end
+function rand_bipartite_graph(nleft::Integer, nright::Integer, ned::Integer)
+    rand_bipartite_graph(default_rng(), nleft, nright, ned)
+end
+
+"""
+    rand_bipartite_graph([rng=default_rng()], nleft, nright, p)
+
+Create a bipartite graph with `nleft` nodes in the left block, `nright` nodes in the right block and edges taken independently with probability `p`.
+"""
+function rand_bipartite_graph(rng::AbstractRNG, nright::Integer, nleft::Integer, p::Real)
+    nright > 0 || throw(ArgumentError("Number of right nodes must be positive, got $nright"))
+    nleft > 0 || throw(ArgumentError("Number of left nodes must be positive, got $nleft"))
+    0 ≤ p ≤ 1 || throw(ArgumentError("Probability must be in [0,1], got $ned"))
+
+    I = zeros(Int, 0)
+    J = zeros(Int, 0)
+    for (a, i) in Iterators.product(1:nleft, 1:nright)
+        if rand(rng) < p
+            push!(I, a)
+            push!(J, i)
+        end
+    end
+    K = ones(Int, length(I))
+    A = sparse(I, J, K, nleft, nright)
+    return BipartiteIndexedGraph(A)
+end
+function rand_bipartite_graph(nright::Integer, nleft::Integer, p::Real)
+    rand_bipartite_graph(default_rng(), nleft, nright, p)
+end
+
+"""
+    rand_regular_bipartite_graph([rng=default_rng()], nleft, nright, k)
+
+Create a bipartite graph with `nleft` nodes in the left block, `nright` nodes in the right block, where all left nodes have degree `k`.
+"""
+function rand_regular_bipartite_graph(rng::AbstractRNG, nright::Integer, nleft::Integer, 
+        k::Integer)
+    nright > 0 || throw(ArgumentError("Number of right nodes must be positive, got $nright"))
+    nleft > 0 || throw(ArgumentError("Number of left nodes must be positive, got $nleft"))
+    k > 0 || throw(ArgumentError("Degree `k` must be positive, got $k"))
+    k ≤ nright || throw(ArgumentError("Degree `k` must be smaller or equal than number of rights, got $k")) 
+
+    I = reduce(vcat, fill(a, k) for a in 1:nleft)
+    J = reduce(vcat, sample(rng, 1:nright, k; replace=false) for _ in 1:nleft)
+    K = ones(Int, length(I))
+    A = sparse(I, J, K, nleft, nright)
+    return BipartiteIndexedGraph(A)
+end
+function rand_regular_bipartite_graph(nright::Integer, nleft::Integer, k::Integer)
+    rand_regular_bipartite_graph(default_rng(), nleft, nright, k)
+end
+
+"""
+    rand_bipartite_tree([rng=default_rng()], n)
+
+Create a tree bipartite graph with `n` vertices in total. The proportion of left/right nodes is random.
+"""
+function rand_bipartite_tree(rng::AbstractRNG, n::Integer)
+    gg = prufer_decode(rand(rng, 1:n, n-2))
+    return BipartiteIndexedGraph(gg)
+end
+rand_bipartite_tree(n::Integer) = rand_bipartite_tree(default_rng(), n)
